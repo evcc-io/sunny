@@ -16,7 +16,7 @@ package sunny
 
 import "gitlab.com/bboehmke/sunny/proto/net2"
 
-//go:generate go run github.com/dmarkham/enumer -type ValueID -output values_enumer.go
+//go:generate go tool enumer -type ValueID -output values_enumer.go
 
 // ValueID identifies a value read from a device
 type ValueID int
@@ -165,10 +165,18 @@ const (
 	// UtilityFrequency Utility frequency
 	UtilityFrequency
 
-	// BatteryCharge Charge state of battery
-	BatteryCharge
+	// BatteryStateOfCharge Charge state of battery
+	BatteryStateOfCharge
 	// BatteryTemperature Temperature of battery
 	BatteryTemperature
+	// BatteryChargePower Charge power of battery
+	BatteryChargePower
+	// BatteryDischargePower Discharge power of battery
+	BatteryDischargePower
+	// BatteryChargeEnergy Charge energy of battery
+	BatteryChargeEnergy
+	// BatteryDischargeEnergy Discharge energy of battery
+	BatteryDischargeEnergy
 
 	// DeviceClass ID of device class
 	DeviceClass
@@ -269,8 +277,12 @@ var valueDesc = map[ValueID]ValueDescription{
 	TimeOperating:    {"Operation time", "s", ""},
 	UtilityFrequency: {"Utility frequency", "Hz", ""},
 
-	BatteryCharge:      {"Charge state of battery", "%", ""},
-	BatteryTemperature: {"Temperature of battery", "°C", "temperature"},
+	BatteryStateOfCharge:   {"Charge state of battery", "%", ""},
+	BatteryTemperature:     {"Temperature of battery", "°C", "temperature"},
+	BatteryChargePower:     {"Charge power of battery", "W", "power"},
+	BatteryDischargePower:  {"Discharge power of battery", "W", "power"},
+	BatteryChargeEnergy:    {"Discharge energy of battery", "Ws", "energy"},
+	BatteryDischargeEnergy: {"Discharge energy of battery", "Ws", "energy"},
 
 	DeviceClass:       {"ID of device class", "", ""},
 	DeviceGridRelay:   {"Status of grid relay", "", ""},
@@ -348,7 +360,7 @@ type InverterValuesDef struct {
 // inverterValues contains all values that can be read from inverters
 var inverterValues = []InverterValuesDef{
 	{0x5100, 0x00263F00, 0x00263FFF, 0x00, 0x263F, ActivePowerPlus, 0},
-	{0x5100, 0x00295A00, 0x00295AFF, 0x00, 0x295A, BatteryCharge, 0},
+	{0x5100, 0x00295A00, 0x00295AFF, 0x00, 0x295A, BatteryStateOfCharge, 0},
 	{0x5100, 0x00411E00, 0x004120FF, 0x00, 0x411E, ActivePowerMax, 0},
 	{0x5100, 0x00464000, 0x004642FF, 0x00, 0x4640, ActivePowerPlusL1, 0},
 	{0x5100, 0x00464000, 0x004642FF, 0x00, 0x4641, ActivePowerPlusL2, 0},
@@ -361,6 +373,8 @@ var inverterValues = []InverterValuesDef{
 	{0x5100, 0x00464800, 0x004655FF, 0x00, 0x4655, CurrentL3, 0.001},
 	{0x5100, 0x00465700, 0x004657FF, 0x00, 0x4657, UtilityFrequency, 0.01},
 	{0x5100, 0x00491E00, 0x00495DFF, 0x00, 0x495B, BatteryTemperature, 0.1},
+	{0x5100, 0x00496900, 0x004969FF, 0x00, 0x4969, BatteryChargePower, 0},
+	{0x5100, 0x00496A00, 0x00496AFF, 0x00, 0x496A, BatteryDischargePower, 0},
 
 	// TODO more decoding for device_status & device_grid_relay
 	{0x5180, 0x00214800, 0x002148FF, 0x00, 0x2148, DeviceStatus, 0},
@@ -380,6 +394,8 @@ var inverterValues = []InverterValuesDef{
 	{0x5400, 0x00462E00, 0x00462FFF, 0x00, 0x462E, TimeOperating, 0},
 	{0x5400, 0x00462E00, 0x00462FFF, 0x00, 0x462F, TimeFeed, 0},
 	{0x5400, 0x00496700, 0x004988FF, 0x00, 0x4967, ActiveEnergyMinus, 3600},
+	{0x5400, 0x00496700, 0x004967FF, 0x00, 0x4967, BatteryChargeEnergy, 3600},
+	{0x5400, 0x00496800, 0x004968FF, 0x00, 0x4968, BatteryDischargeEnergy, 3600},
 
 	{0x5800, 0x00821E00, 0x008220FF, 0x00, 0x821E, DeviceName, 0},
 	{0x5800, 0x00821E00, 0x008220FF, 0x00, 0x821F, DeviceClass, 0},

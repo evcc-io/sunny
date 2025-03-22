@@ -7,11 +7,11 @@ import (
 	"strings"
 )
 
-const _ValueIDName = "ActivePowerMaxActivePowerMinusActivePowerMinusL1ActivePowerMinusL2ActivePowerMinusL3ActivePowerPlusActivePowerPlusL1ActivePowerPlusL2ActivePowerPlusL3ApparentPowerMinusApparentPowerMinusL1ApparentPowerMinusL2ApparentPowerMinusL3ApparentPowerPlusApparentPowerPlusL1ApparentPowerPlusL2ApparentPowerPlusL3ReactivePowerMinusReactivePowerMinusL1ReactivePowerMinusL2ReactivePowerMinusL3ReactivePowerPlusReactivePowerPlusL1ReactivePowerPlusL2ReactivePowerPlusL3PowerS1PowerS2PowerFactorPowerFactorL1PowerFactorL2PowerFactorL3ActiveEnergyMinusActiveEnergyMinusL1ActiveEnergyMinusL2ActiveEnergyMinusL3ActiveEnergyPlusActiveEnergyPlusL1ActiveEnergyPlusL2ActiveEnergyPlusL3ActiveEnergyPlusTodayApparentEnergyMinusApparentEnergyMinusL1ApparentEnergyMinusL2ApparentEnergyMinusL3ApparentEnergyPlusApparentEnergyPlusL1ApparentEnergyPlusL2ApparentEnergyPlusL3ReactiveEnergyMinusReactiveEnergyMinusL1ReactiveEnergyMinusL2ReactiveEnergyMinusL3ReactiveEnergyPlusReactiveEnergyPlusL1ReactiveEnergyPlusL2ReactiveEnergyPlusL3CurrentL1CurrentL2CurrentL3CurrentS1CurrentS2VoltageL1VoltageL2VoltageL3VoltageS1VoltageS2TimeFeedTimeOperatingUtilityFrequencyBatteryChargeBatteryTemperatureDeviceClassDeviceGridRelayDeviceNameDeviceStatusDeviceTemperatureDeviceTypeSoftwareVersion"
+const _ValueIDName = "ActivePowerMaxActivePowerMinusActivePowerMinusL1ActivePowerMinusL2ActivePowerMinusL3ActivePowerPlusActivePowerPlusL1ActivePowerPlusL2ActivePowerPlusL3ApparentPowerMinusApparentPowerMinusL1ApparentPowerMinusL2ApparentPowerMinusL3ApparentPowerPlusApparentPowerPlusL1ApparentPowerPlusL2ApparentPowerPlusL3ReactivePowerMinusReactivePowerMinusL1ReactivePowerMinusL2ReactivePowerMinusL3ReactivePowerPlusReactivePowerPlusL1ReactivePowerPlusL2ReactivePowerPlusL3PowerS1PowerS2PowerFactorPowerFactorL1PowerFactorL2PowerFactorL3ActiveEnergyMinusActiveEnergyMinusL1ActiveEnergyMinusL2ActiveEnergyMinusL3ActiveEnergyPlusActiveEnergyPlusL1ActiveEnergyPlusL2ActiveEnergyPlusL3ActiveEnergyPlusTodayApparentEnergyMinusApparentEnergyMinusL1ApparentEnergyMinusL2ApparentEnergyMinusL3ApparentEnergyPlusApparentEnergyPlusL1ApparentEnergyPlusL2ApparentEnergyPlusL3ReactiveEnergyMinusReactiveEnergyMinusL1ReactiveEnergyMinusL2ReactiveEnergyMinusL3ReactiveEnergyPlusReactiveEnergyPlusL1ReactiveEnergyPlusL2ReactiveEnergyPlusL3CurrentL1CurrentL2CurrentL3CurrentS1CurrentS2VoltageL1VoltageL2VoltageL3VoltageS1VoltageS2TimeFeedTimeOperatingUtilityFrequencyBatteryStateOfChargeBatteryTemperatureBatteryChargePowerBatteryDischargePowerBatteryChargeEnergyBatteryDischargeEnergyDeviceClassDeviceGridRelayDeviceNameDeviceStatusDeviceTemperatureDeviceTypeSoftwareVersion"
 
-var _ValueIDIndex = [...]uint16{0, 14, 30, 48, 66, 84, 99, 116, 133, 150, 168, 188, 208, 228, 245, 264, 283, 302, 320, 340, 360, 380, 397, 416, 435, 454, 461, 468, 479, 492, 505, 518, 535, 554, 573, 592, 608, 626, 644, 662, 683, 702, 723, 744, 765, 783, 803, 823, 843, 862, 883, 904, 925, 943, 963, 983, 1003, 1012, 1021, 1030, 1039, 1048, 1057, 1066, 1075, 1084, 1093, 1101, 1114, 1130, 1143, 1161, 1172, 1187, 1197, 1209, 1226, 1236, 1251}
+var _ValueIDIndex = [...]uint16{0, 14, 30, 48, 66, 84, 99, 116, 133, 150, 168, 188, 208, 228, 245, 264, 283, 302, 320, 340, 360, 380, 397, 416, 435, 454, 461, 468, 479, 492, 505, 518, 535, 554, 573, 592, 608, 626, 644, 662, 683, 702, 723, 744, 765, 783, 803, 823, 843, 862, 883, 904, 925, 943, 963, 983, 1003, 1012, 1021, 1030, 1039, 1048, 1057, 1066, 1075, 1084, 1093, 1101, 1114, 1130, 1150, 1168, 1186, 1207, 1226, 1248, 1259, 1274, 1284, 1296, 1313, 1323, 1338}
 
-const _ValueIDLowerName = "activepowermaxactivepowerminusactivepowerminusl1activepowerminusl2activepowerminusl3activepowerplusactivepowerplusl1activepowerplusl2activepowerplusl3apparentpowerminusapparentpowerminusl1apparentpowerminusl2apparentpowerminusl3apparentpowerplusapparentpowerplusl1apparentpowerplusl2apparentpowerplusl3reactivepowerminusreactivepowerminusl1reactivepowerminusl2reactivepowerminusl3reactivepowerplusreactivepowerplusl1reactivepowerplusl2reactivepowerplusl3powers1powers2powerfactorpowerfactorl1powerfactorl2powerfactorl3activeenergyminusactiveenergyminusl1activeenergyminusl2activeenergyminusl3activeenergyplusactiveenergyplusl1activeenergyplusl2activeenergyplusl3activeenergyplustodayapparentenergyminusapparentenergyminusl1apparentenergyminusl2apparentenergyminusl3apparentenergyplusapparentenergyplusl1apparentenergyplusl2apparentenergyplusl3reactiveenergyminusreactiveenergyminusl1reactiveenergyminusl2reactiveenergyminusl3reactiveenergyplusreactiveenergyplusl1reactiveenergyplusl2reactiveenergyplusl3currentl1currentl2currentl3currents1currents2voltagel1voltagel2voltagel3voltages1voltages2timefeedtimeoperatingutilityfrequencybatterychargebatterytemperaturedeviceclassdevicegridrelaydevicenamedevicestatusdevicetemperaturedevicetypesoftwareversion"
+const _ValueIDLowerName = "activepowermaxactivepowerminusactivepowerminusl1activepowerminusl2activepowerminusl3activepowerplusactivepowerplusl1activepowerplusl2activepowerplusl3apparentpowerminusapparentpowerminusl1apparentpowerminusl2apparentpowerminusl3apparentpowerplusapparentpowerplusl1apparentpowerplusl2apparentpowerplusl3reactivepowerminusreactivepowerminusl1reactivepowerminusl2reactivepowerminusl3reactivepowerplusreactivepowerplusl1reactivepowerplusl2reactivepowerplusl3powers1powers2powerfactorpowerfactorl1powerfactorl2powerfactorl3activeenergyminusactiveenergyminusl1activeenergyminusl2activeenergyminusl3activeenergyplusactiveenergyplusl1activeenergyplusl2activeenergyplusl3activeenergyplustodayapparentenergyminusapparentenergyminusl1apparentenergyminusl2apparentenergyminusl3apparentenergyplusapparentenergyplusl1apparentenergyplusl2apparentenergyplusl3reactiveenergyminusreactiveenergyminusl1reactiveenergyminusl2reactiveenergyminusl3reactiveenergyplusreactiveenergyplusl1reactiveenergyplusl2reactiveenergyplusl3currentl1currentl2currentl3currents1currents2voltagel1voltagel2voltagel3voltages1voltages2timefeedtimeoperatingutilityfrequencybatterystateofchargebatterytemperaturebatterychargepowerbatterydischargepowerbatterychargeenergybatterydischargeenergydeviceclassdevicegridrelaydevicenamedevicestatusdevicetemperaturedevicetypesoftwareversion"
 
 func (i ValueID) String() string {
 	i -= 1
@@ -94,18 +94,22 @@ func _ValueIDNoOp() {
 	_ = x[TimeFeed-(67)]
 	_ = x[TimeOperating-(68)]
 	_ = x[UtilityFrequency-(69)]
-	_ = x[BatteryCharge-(70)]
+	_ = x[BatteryStateOfCharge-(70)]
 	_ = x[BatteryTemperature-(71)]
-	_ = x[DeviceClass-(72)]
-	_ = x[DeviceGridRelay-(73)]
-	_ = x[DeviceName-(74)]
-	_ = x[DeviceStatus-(75)]
-	_ = x[DeviceTemperature-(76)]
-	_ = x[DeviceType-(77)]
-	_ = x[SoftwareVersion-(78)]
+	_ = x[BatteryChargePower-(72)]
+	_ = x[BatteryDischargePower-(73)]
+	_ = x[BatteryChargeEnergy-(74)]
+	_ = x[BatteryDischargeEnergy-(75)]
+	_ = x[DeviceClass-(76)]
+	_ = x[DeviceGridRelay-(77)]
+	_ = x[DeviceName-(78)]
+	_ = x[DeviceStatus-(79)]
+	_ = x[DeviceTemperature-(80)]
+	_ = x[DeviceType-(81)]
+	_ = x[SoftwareVersion-(82)]
 }
 
-var _ValueIDValues = []ValueID{ActivePowerMax, ActivePowerMinus, ActivePowerMinusL1, ActivePowerMinusL2, ActivePowerMinusL3, ActivePowerPlus, ActivePowerPlusL1, ActivePowerPlusL2, ActivePowerPlusL3, ApparentPowerMinus, ApparentPowerMinusL1, ApparentPowerMinusL2, ApparentPowerMinusL3, ApparentPowerPlus, ApparentPowerPlusL1, ApparentPowerPlusL2, ApparentPowerPlusL3, ReactivePowerMinus, ReactivePowerMinusL1, ReactivePowerMinusL2, ReactivePowerMinusL3, ReactivePowerPlus, ReactivePowerPlusL1, ReactivePowerPlusL2, ReactivePowerPlusL3, PowerS1, PowerS2, PowerFactor, PowerFactorL1, PowerFactorL2, PowerFactorL3, ActiveEnergyMinus, ActiveEnergyMinusL1, ActiveEnergyMinusL2, ActiveEnergyMinusL3, ActiveEnergyPlus, ActiveEnergyPlusL1, ActiveEnergyPlusL2, ActiveEnergyPlusL3, ActiveEnergyPlusToday, ApparentEnergyMinus, ApparentEnergyMinusL1, ApparentEnergyMinusL2, ApparentEnergyMinusL3, ApparentEnergyPlus, ApparentEnergyPlusL1, ApparentEnergyPlusL2, ApparentEnergyPlusL3, ReactiveEnergyMinus, ReactiveEnergyMinusL1, ReactiveEnergyMinusL2, ReactiveEnergyMinusL3, ReactiveEnergyPlus, ReactiveEnergyPlusL1, ReactiveEnergyPlusL2, ReactiveEnergyPlusL3, CurrentL1, CurrentL2, CurrentL3, CurrentS1, CurrentS2, VoltageL1, VoltageL2, VoltageL3, VoltageS1, VoltageS2, TimeFeed, TimeOperating, UtilityFrequency, BatteryCharge, BatteryTemperature, DeviceClass, DeviceGridRelay, DeviceName, DeviceStatus, DeviceTemperature, DeviceType, SoftwareVersion}
+var _ValueIDValues = []ValueID{ActivePowerMax, ActivePowerMinus, ActivePowerMinusL1, ActivePowerMinusL2, ActivePowerMinusL3, ActivePowerPlus, ActivePowerPlusL1, ActivePowerPlusL2, ActivePowerPlusL3, ApparentPowerMinus, ApparentPowerMinusL1, ApparentPowerMinusL2, ApparentPowerMinusL3, ApparentPowerPlus, ApparentPowerPlusL1, ApparentPowerPlusL2, ApparentPowerPlusL3, ReactivePowerMinus, ReactivePowerMinusL1, ReactivePowerMinusL2, ReactivePowerMinusL3, ReactivePowerPlus, ReactivePowerPlusL1, ReactivePowerPlusL2, ReactivePowerPlusL3, PowerS1, PowerS2, PowerFactor, PowerFactorL1, PowerFactorL2, PowerFactorL3, ActiveEnergyMinus, ActiveEnergyMinusL1, ActiveEnergyMinusL2, ActiveEnergyMinusL3, ActiveEnergyPlus, ActiveEnergyPlusL1, ActiveEnergyPlusL2, ActiveEnergyPlusL3, ActiveEnergyPlusToday, ApparentEnergyMinus, ApparentEnergyMinusL1, ApparentEnergyMinusL2, ApparentEnergyMinusL3, ApparentEnergyPlus, ApparentEnergyPlusL1, ApparentEnergyPlusL2, ApparentEnergyPlusL3, ReactiveEnergyMinus, ReactiveEnergyMinusL1, ReactiveEnergyMinusL2, ReactiveEnergyMinusL3, ReactiveEnergyPlus, ReactiveEnergyPlusL1, ReactiveEnergyPlusL2, ReactiveEnergyPlusL3, CurrentL1, CurrentL2, CurrentL3, CurrentS1, CurrentS2, VoltageL1, VoltageL2, VoltageL3, VoltageS1, VoltageS2, TimeFeed, TimeOperating, UtilityFrequency, BatteryStateOfCharge, BatteryTemperature, BatteryChargePower, BatteryDischargePower, BatteryChargeEnergy, BatteryDischargeEnergy, DeviceClass, DeviceGridRelay, DeviceName, DeviceStatus, DeviceTemperature, DeviceType, SoftwareVersion}
 
 var _ValueIDNameToValueMap = map[string]ValueID{
 	_ValueIDName[0:14]:           ActivePowerMax,
@@ -246,24 +250,32 @@ var _ValueIDNameToValueMap = map[string]ValueID{
 	_ValueIDLowerName[1101:1114]: TimeOperating,
 	_ValueIDName[1114:1130]:      UtilityFrequency,
 	_ValueIDLowerName[1114:1130]: UtilityFrequency,
-	_ValueIDName[1130:1143]:      BatteryCharge,
-	_ValueIDLowerName[1130:1143]: BatteryCharge,
-	_ValueIDName[1143:1161]:      BatteryTemperature,
-	_ValueIDLowerName[1143:1161]: BatteryTemperature,
-	_ValueIDName[1161:1172]:      DeviceClass,
-	_ValueIDLowerName[1161:1172]: DeviceClass,
-	_ValueIDName[1172:1187]:      DeviceGridRelay,
-	_ValueIDLowerName[1172:1187]: DeviceGridRelay,
-	_ValueIDName[1187:1197]:      DeviceName,
-	_ValueIDLowerName[1187:1197]: DeviceName,
-	_ValueIDName[1197:1209]:      DeviceStatus,
-	_ValueIDLowerName[1197:1209]: DeviceStatus,
-	_ValueIDName[1209:1226]:      DeviceTemperature,
-	_ValueIDLowerName[1209:1226]: DeviceTemperature,
-	_ValueIDName[1226:1236]:      DeviceType,
-	_ValueIDLowerName[1226:1236]: DeviceType,
-	_ValueIDName[1236:1251]:      SoftwareVersion,
-	_ValueIDLowerName[1236:1251]: SoftwareVersion,
+	_ValueIDName[1130:1150]:      BatteryStateOfCharge,
+	_ValueIDLowerName[1130:1150]: BatteryStateOfCharge,
+	_ValueIDName[1150:1168]:      BatteryTemperature,
+	_ValueIDLowerName[1150:1168]: BatteryTemperature,
+	_ValueIDName[1168:1186]:      BatteryChargePower,
+	_ValueIDLowerName[1168:1186]: BatteryChargePower,
+	_ValueIDName[1186:1207]:      BatteryDischargePower,
+	_ValueIDLowerName[1186:1207]: BatteryDischargePower,
+	_ValueIDName[1207:1226]:      BatteryChargeEnergy,
+	_ValueIDLowerName[1207:1226]: BatteryChargeEnergy,
+	_ValueIDName[1226:1248]:      BatteryDischargeEnergy,
+	_ValueIDLowerName[1226:1248]: BatteryDischargeEnergy,
+	_ValueIDName[1248:1259]:      DeviceClass,
+	_ValueIDLowerName[1248:1259]: DeviceClass,
+	_ValueIDName[1259:1274]:      DeviceGridRelay,
+	_ValueIDLowerName[1259:1274]: DeviceGridRelay,
+	_ValueIDName[1274:1284]:      DeviceName,
+	_ValueIDLowerName[1274:1284]: DeviceName,
+	_ValueIDName[1284:1296]:      DeviceStatus,
+	_ValueIDLowerName[1284:1296]: DeviceStatus,
+	_ValueIDName[1296:1313]:      DeviceTemperature,
+	_ValueIDLowerName[1296:1313]: DeviceTemperature,
+	_ValueIDName[1313:1323]:      DeviceType,
+	_ValueIDLowerName[1313:1323]: DeviceType,
+	_ValueIDName[1323:1338]:      SoftwareVersion,
+	_ValueIDLowerName[1323:1338]: SoftwareVersion,
 }
 
 var _ValueIDNames = []string{
@@ -336,15 +348,19 @@ var _ValueIDNames = []string{
 	_ValueIDName[1093:1101],
 	_ValueIDName[1101:1114],
 	_ValueIDName[1114:1130],
-	_ValueIDName[1130:1143],
-	_ValueIDName[1143:1161],
-	_ValueIDName[1161:1172],
-	_ValueIDName[1172:1187],
-	_ValueIDName[1187:1197],
-	_ValueIDName[1197:1209],
-	_ValueIDName[1209:1226],
-	_ValueIDName[1226:1236],
-	_ValueIDName[1236:1251],
+	_ValueIDName[1130:1150],
+	_ValueIDName[1150:1168],
+	_ValueIDName[1168:1186],
+	_ValueIDName[1186:1207],
+	_ValueIDName[1207:1226],
+	_ValueIDName[1226:1248],
+	_ValueIDName[1248:1259],
+	_ValueIDName[1259:1274],
+	_ValueIDName[1274:1284],
+	_ValueIDName[1284:1296],
+	_ValueIDName[1296:1313],
+	_ValueIDName[1313:1323],
+	_ValueIDName[1323:1338],
 }
 
 // ValueIDString retrieves an enum value from the enum constants string name.
@@ -353,8 +369,8 @@ func ValueIDString(s string) (ValueID, error) {
 	if val, ok := _ValueIDNameToValueMap[s]; ok {
 		return val, nil
 	}
-	s = strings.ToLower(s)
-	if val, ok := _ValueIDNameToValueMap[s]; ok {
+
+	if val, ok := _ValueIDNameToValueMap[strings.ToLower(s)]; ok {
 		return val, nil
 	}
 	return 0, fmt.Errorf("%s does not belong to ValueID values", s)
