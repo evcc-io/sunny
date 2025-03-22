@@ -24,7 +24,8 @@ import (
 	"gitlab.com/bboehmke/sunny"
 )
 
-var inf = flag.String("inf", "", "Interface devices are connected to")
+var inf = flag.String("ifc", "", "Interface devices are connected to")
+var password = flag.String("password", "0000", "User password")
 
 func main() {
 	flag.Parse()
@@ -72,7 +73,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	connection.DiscoverDevices(ctx, devices, "0000")
+	connection.DiscoverDevices(ctx, devices, *password)
 	cancel()
 
 	close(devices)
