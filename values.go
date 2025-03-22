@@ -16,7 +16,7 @@ package sunny
 
 import "gitlab.com/bboehmke/sunny/proto/net2"
 
-//go:generate go run github.com/dmarkham/enumer -type ValueID -output values_enumer.go
+//go:generate go tool enumer -type ValueID -output values_enumer.go
 
 // ValueID identifies a value read from a device
 type ValueID int
