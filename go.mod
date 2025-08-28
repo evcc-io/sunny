@@ -1,4 +1,4 @@
-module gitlab.com/bboehmke/sunny
+module gitlab.com/wabuMike/sunny
 
 go 1.22
 
