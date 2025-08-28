@@ -20,7 +20,7 @@ import (
 	"slices"
 	"sync"
 
-	"gitlab.com/bboehmke/sunny/proto"
+	"gitlab.com/wabuMike/sunny/proto"
 )
 
 const listenAddress = "239.12.255.254:9522"

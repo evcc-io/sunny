@@ -14,7 +14,7 @@
 
 package sunny
 
-import "gitlab.com/bboehmke/sunny/proto/net2"
+import "gitlab.com/wabuMike/sunny/proto/net2"
 
 //go:generate go run github.com/dmarkham/enumer -type ValueID -output values_enumer.go
 

@@ -19,7 +19,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"gitlab.com/bboehmke/sunny/proto/net2"
+	"gitlab.com/wabuMike/sunny/proto/net2"
 )
 
 func TestSmaNet2PacketEntry_Tag(t *testing.T) {

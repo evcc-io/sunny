@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	"gitlab.com/bboehmke/sunny"
+	"gitlab.com/wabuMike/sunny"
 )
 
 var inf = flag.String("inf", "", "Interface devices are connected to")
