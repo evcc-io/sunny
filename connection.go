@@ -83,7 +83,6 @@ func NewConnection(inf string) (*Connection, error) {
 	if err != nil {
 		// error handling
 	}
-	defer c.Close()
 	conn.socket = ipv4.NewPacketConn(c)
 	if err := conn.socket.JoinGroup(listenInterface, &net.UDPAddr{IP: group}); err != nil {
 		return nil, err
