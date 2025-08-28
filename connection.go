@@ -29,6 +29,7 @@ const listenAddress = "239.12.255.254:9522"
 
 var connectionMutex sync.Mutex
 var connections = make(map[string]*Connection)
+var group = net.IPv4(239, 12, 255, 254)
 
 // Connection for communication with devices
 type Connection struct {
@@ -44,6 +45,12 @@ type Connection struct {
 	// interface for device discovery
 	discoverMutex    sync.RWMutex
 	discoverChannels []chan string
+
+	// receive counter for resetting multicast group membership
+	receiveCounter int
+
+	// receive interface
+	listenInterface *net.Interface
 }
 
 // NewConnection creates a new Connection object and starts listening
@@ -58,6 +65,7 @@ func NewConnection(inf string) (*Connection, error) {
 
 	conn := Connection{
 		receiverChannels: make(map[string][]chan *proto.Packet),
+		receiveCounter:   0,
 	}
 
 	var err error
@@ -67,9 +75,8 @@ func NewConnection(inf string) (*Connection, error) {
 	}
 
 	// listen interface is optional
-	var listenInterface *net.Interface
 	if inf != "" {
-		listenInterface, err = net.InterfaceByName(inf)
+		conn.listenInterface, err = net.InterfaceByName(inf)
 		if err != nil {
 			return nil, err
 		}
@@ -79,13 +86,12 @@ func NewConnection(inf string) (*Connection, error) {
 	// if err != nil {
 	// 	return nil, fmt.Errorf("failed to create connection: %w", err)
 	// }
-	group := net.IPv4(239, 12, 255, 254)
 	c, err := net.ListenPacket("udp4", "0.0.0.0:9522")
 	if err != nil {
-		// error handling
+		return nil, err
 	}
 	conn.socket = ipv4.NewPacketConn(c)
-	if err := conn.socket.JoinGroup(listenInterface, &net.UDPAddr{IP: group}); err != nil {
+	if err := conn.socket.JoinGroup(conn.listenInterface, &net.UDPAddr{IP: group}); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +115,7 @@ func (c *Connection) listenLoop() {
 			continue
 		}
 
-		// remove port number
+		// remove port number from source address
 		var re = regexp.MustCompile(`:.*$`)
 		srcIP := re.ReplaceAllString(src.String(), "")
 
@@ -124,6 +130,7 @@ func (c *Connection) listenLoop() {
 
 		c.handleDiscovered(srcIP)
 		c.handlePackets(srcIP, &pack)
+		c.handleResetMulticastGroup()
 	}
 }
 
@@ -208,6 +215,23 @@ func (c *Connection) sendPacket(address *net.UDPAddr, packet *proto.Packet) erro
 	_, err := c.socket.WriteTo(packet.Bytes(), nil, address)
 	if err != nil {
 		return fmt.Errorf("send: %w", err)
+	}
+	return nil
+}
+
+// reset multicast group membership
+func (c *Connection) handleResetMulticastGroup() error {
+	c.receiveCounter++
+
+	if c.receiveCounter >= 300 {
+		Log.Printf("refreshing multicast group membership for %s", c.listenInterface.Name)
+		if err := c.socket.LeaveGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
+			return fmt.Errorf("error leaving multicast group: %w", err)
+		}
+		if err := c.socket.JoinGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
+			return fmt.Errorf("error leaving multicast group %w", err)
+		}
+		c.receiveCounter = 0
 	}
 	return nil
 }
