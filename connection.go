@@ -21,6 +21,7 @@ import (
 	"sync"
 
 	"gitlab.com/wabuMike/sunny/proto"
+	"golang.org/x/net/ipv4"
 )
 
 const listenAddress = "239.12.255.254:9522"
@@ -33,7 +34,7 @@ type Connection struct {
 	// multicast address
 	address *net.UDPAddr
 	// multicast socket
-	socket *net.UDPConn
+	socket *ipv4.PacketConn
 
 	// buffer for received packet
 	receiverMutex    sync.RWMutex
@@ -73,13 +74,18 @@ func NewConnection(inf string) (*Connection, error) {
 		}
 	}
 
-	conn.socket, err = net.ListenMulticastUDP("udp", listenInterface, conn.address)
+	// conn.socket, err = net.ListenMulticastUDP("udp", listenInterface, conn.address)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("failed to create connection: %w", err)
+	// }
+	group := net.IPv4(239, 12, 255, 254)
+	c, err := net.ListenPacket("udp4", "0.0.0.0:9522")
 	if err != nil {
-		return nil, fmt.Errorf("failed to create connection: %w", err)
+		// error handling
 	}
-
-	err = conn.socket.SetReadBuffer(2048)
-	if err != nil {
+	defer c.Close()
+	conn.socket = ipv4.NewPacketConn(c)
+	if err := conn.socket.JoinGroup(listenInterface, &net.UDPAddr{IP: group}); err != nil {
 		return nil, err
 	}
 
@@ -94,7 +100,7 @@ func (c *Connection) listenLoop() {
 	b := make([]byte, 2048)
 
 	for c.socket != nil {
-		n, src, err := c.socket.ReadFromUDP(b)
+		n, _, src, err := c.socket.ReadFrom(b)
 		if err != nil {
 			// failed to read from udp -> retry
 			if DetailedPacketLogging.Load() {
@@ -103,7 +109,7 @@ func (c *Connection) listenLoop() {
 			continue
 		}
 
-		srcIP := src.IP.String()
+		srcIP := src.String()
 		var pack proto.Packet
 		err = pack.Read(b[:n])
 		if err != nil {
@@ -196,7 +202,7 @@ func (c *Connection) unregisterDiscoverer(ch chan string) {
 // sendPacket to the given address
 func (c *Connection) sendPacket(address *net.UDPAddr, packet *proto.Packet) error {
 	Log.Printf("send %s: [%s]", address.IP.String(), packet)
-	_, err := c.socket.WriteToUDP(packet.Bytes(), address)
+	_, err := c.socket.WriteTo(packet.Bytes(), nil, address)
 	if err != nil {
 		return fmt.Errorf("send: %w", err)
 	}

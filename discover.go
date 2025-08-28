@@ -89,7 +89,7 @@ loop:
 		case <-ticker.C:
 			// send discover packet
 			Log.Printf("send discover package")
-			_, err := c.socket.WriteTo(proto.NewDiscoveryRequest().Bytes(), c.address)
+			_, err := c.socket.WriteTo(proto.NewDiscoveryRequest().Bytes(), nil, c.address)
 			if err != nil {
 				Log.Printf("failed to send packet: %w", err)
 			}
