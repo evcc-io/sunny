@@ -224,7 +224,7 @@ func (c *Connection) handleResetMulticastGroup() error {
 	c.receiveCounter++
 
 	if c.receiveCounter >= 300 {
-		Log.Printf("refreshing multicast group membership for %s", c.listenInterface.Name)
+		Log.Printf("refreshing multicast group membership")
 		if err := c.socket.LeaveGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
 			return fmt.Errorf("error leaving multicast group: %w", err)
 		}
