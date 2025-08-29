@@ -81,7 +81,7 @@ func NewConnection(inf string) (*Connection, error) {
 
 	c, err := net.ListenPacket("udp4", "0.0.0.0:9522")
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create connection: %w", err)
 	}
 	conn.socket = ipv4.NewPacketConn(c)
 	err = conn.socket.JoinGroup(conn.listenInterface, &net.UDPAddr{IP: group})
