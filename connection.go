@@ -82,16 +82,13 @@ func NewConnection(inf string) (*Connection, error) {
 		}
 	}
 
-	// conn.socket, err = net.ListenMulticastUDP("udp", listenInterface, conn.address)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("failed to create connection: %w", err)
-	// }
 	c, err := net.ListenPacket("udp4", "0.0.0.0:9522")
 	if err != nil {
 		return nil, err
 	}
 	conn.socket = ipv4.NewPacketConn(c)
-	if err := conn.socket.JoinGroup(conn.listenInterface, &net.UDPAddr{IP: group}); err != nil {
+	err = conn.socket.JoinGroup(conn.listenInterface, &net.UDPAddr{IP: group})
+	if err != nil {
 		return nil, err
 	}
 
@@ -220,18 +217,17 @@ func (c *Connection) sendPacket(address *net.UDPAddr, packet *proto.Packet) erro
 }
 
 // reset multicast group membership
-func (c *Connection) handleResetMulticastGroup() error {
+func (c *Connection) handleResetMulticastGroup()  {
 	c.receiveCounter++
 
 	if c.receiveCounter >= 300 {
 		Log.Printf("refreshing multicast group membership")
 		if err := c.socket.LeaveGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
-			return fmt.Errorf("error leaving multicast group: %w", err)
+			Log.Printf("error leaving multicast group: %w", err)
 		}
 		if err := c.socket.JoinGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
-			return fmt.Errorf("error leaving multicast group %w", err)
+			Log.Printf("error re-joining multicast group %w", err)
 		}
 		c.receiveCounter = 0
 	}
-	return nil
 }
