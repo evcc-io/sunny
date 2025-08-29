@@ -17,8 +17,8 @@ package sunny
 import (
 	"fmt"
 	"net"
-	"regexp"
 	"slices"
+	"strings"
 	"sync"
 	"time"
 
@@ -113,8 +113,7 @@ func (c *Connection) listenLoop() {
 		}
 
 		// remove port number from source address
-		var re = regexp.MustCompile(`:.*$`)
-		srcIP := re.ReplaceAllString(src.String(), "")
+		srcIP := strings.Split(src.String(), ":")[0]
 
 		var pack proto.Packet
 		err = pack.Read(b[:n])
