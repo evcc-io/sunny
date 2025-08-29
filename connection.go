@@ -15,7 +15,6 @@
 package sunny
 
 import (
-	"context"
 	"fmt"
 	"net"
 	"regexp"
@@ -93,9 +92,7 @@ func NewConnection(inf string) (*Connection, error) {
 	go conn.listenLoop()
 
 	// re-join multicast group every 3 minutes https://gitlab.com/bboehmke/sunny/-/issues/4
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	go doEvery(ctx, time.Second*180, conn.resetMulticastGroup)
+	go handleResetMulticastGroup(&conn)
 
 	connections[inf] = &conn
 	return &conn, nil
@@ -229,15 +226,10 @@ func (c *Connection) resetMulticastGroup() {
 	}
 }
 
-// executes function in a regular interval
-func doEvery(context context.Context, duration time.Duration, function func()) error {
-	ticker := time.Tick(duration)
-	for {
-		select {
-		case <-context.Done():
-			return context.Err()
-		case <-ticker:
-			function()
-		}
+// executes a multicast reset every 180 seconds (3 minutes)
+func handleResetMulticastGroup(c *Connection) {
+	ticker := time.Tick(180 * time.Second)
+	for range ticker {
+		c.resetMulticastGroup()
 	}
 }
