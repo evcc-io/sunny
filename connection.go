@@ -216,7 +216,6 @@ func (c *Connection) sendPacket(address *net.UDPAddr, packet *proto.Packet) erro
 
 // reset multicast group membership
 func (c *Connection) resetMulticastGroup() {
-	Log.Printf("refreshing multicast group membership")
 	if err := c.socket.LeaveGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
 		Log.Printf("error leaving multicast group: %w", err)
 	}
