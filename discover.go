@@ -19,7 +19,7 @@ import (
 	"sync"
 	"time"
 
-	"gitlab.com/wabuMike/sunny/proto"
+	"gitlab.com/bboehmke/sunny/proto"
 )
 
 // SimpleDiscoverDevices in Connection with a simpler interface

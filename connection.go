@@ -22,7 +22,7 @@ import (
 	"sync"
 	"time"
 
-	"gitlab.com/wabuMike/sunny/proto"
+	"gitlab.com/bboehmke/sunny/proto"
 	"golang.org/x/net/ipv4"
 )
 
