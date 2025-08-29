@@ -15,11 +15,13 @@
 package sunny
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"regexp"
 	"slices"
 	"sync"
+	"time"
 
 	"gitlab.com/wabuMike/sunny/proto"
 	"golang.org/x/net/ipv4"
@@ -46,9 +48,6 @@ type Connection struct {
 	discoverMutex    sync.RWMutex
 	discoverChannels []chan string
 
-	// receive counter for resetting multicast group membership
-	receiveCounter int
-
 	// receive interface
 	listenInterface *net.Interface
 }
@@ -65,7 +64,6 @@ func NewConnection(inf string) (*Connection, error) {
 
 	conn := Connection{
 		receiverChannels: make(map[string][]chan *proto.Packet),
-		receiveCounter:   0,
 	}
 
 	var err error
@@ -93,6 +91,11 @@ func NewConnection(inf string) (*Connection, error) {
 	}
 
 	go conn.listenLoop()
+
+	// re-join multicast group every 3 minutes https://gitlab.com/bboehmke/sunny/-/issues/4
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	go doEvery(ctx, time.Second*180, conn.resetMulticastGroup)
 
 	connections[inf] = &conn
 	return &conn, nil
@@ -127,7 +130,6 @@ func (c *Connection) listenLoop() {
 
 		c.handleDiscovered(srcIP)
 		c.handlePackets(srcIP, &pack)
-		c.handleResetMulticastGroup()
 	}
 }
 
@@ -217,17 +219,25 @@ func (c *Connection) sendPacket(address *net.UDPAddr, packet *proto.Packet) erro
 }
 
 // reset multicast group membership
-func (c *Connection) handleResetMulticastGroup()  {
-	c.receiveCounter++
+func (c *Connection) resetMulticastGroup() {
+	Log.Printf("refreshing multicast group membership")
+	if err := c.socket.LeaveGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
+		Log.Printf("error leaving multicast group: %w", err)
+	}
+	if err := c.socket.JoinGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
+		Log.Printf("error re-joining multicast group %w", err)
+	}
+}
 
-	if c.receiveCounter >= 300 {
-		Log.Printf("refreshing multicast group membership")
-		if err := c.socket.LeaveGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
-			Log.Printf("error leaving multicast group: %w", err)
+// executes function in a regular interval
+func doEvery(context context.Context, duration time.Duration, function func()) error {
+	ticker := time.Tick(duration)
+	for {
+		select {
+		case <-context.Done():
+			return context.Err()
+		case <-ticker:
+			function()
 		}
-		if err := c.socket.JoinGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
-			Log.Printf("error re-joining multicast group %w", err)
-		}
-		c.receiveCounter = 0
 	}
 }
