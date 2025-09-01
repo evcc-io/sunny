@@ -18,22 +18,26 @@ import (
 	"fmt"
 	"net"
 	"slices"
+	"strings"
 	"sync"
+	"time"
 
 	"gitlab.com/bboehmke/sunny/proto"
+	"golang.org/x/net/ipv4"
 )
 
 const listenAddress = "239.12.255.254:9522"
 
 var connectionMutex sync.Mutex
 var connections = make(map[string]*Connection)
+var group = net.IPv4(239, 12, 255, 254)
 
 // Connection for communication with devices
 type Connection struct {
 	// multicast address
 	address *net.UDPAddr
 	// multicast socket
-	socket *net.UDPConn
+	socket *ipv4.PacketConn
 
 	// buffer for received packet
 	receiverMutex    sync.RWMutex
@@ -42,6 +46,9 @@ type Connection struct {
 	// interface for device discovery
 	discoverMutex    sync.RWMutex
 	discoverChannels []chan string
+
+	// receive interface
+	listenInterface *net.Interface
 }
 
 // NewConnection creates a new Connection object and starts listening
@@ -65,25 +72,27 @@ func NewConnection(inf string) (*Connection, error) {
 	}
 
 	// listen interface is optional
-	var listenInterface *net.Interface
 	if inf != "" {
-		listenInterface, err = net.InterfaceByName(inf)
+		conn.listenInterface, err = net.InterfaceByName(inf)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	conn.socket, err = net.ListenMulticastUDP("udp", listenInterface, conn.address)
+	c, err := net.ListenPacket("udp4", "0.0.0.0:9522")
 	if err != nil {
 		return nil, fmt.Errorf("failed to create connection: %w", err)
 	}
-
-	err = conn.socket.SetReadBuffer(2048)
+	conn.socket = ipv4.NewPacketConn(c)
+	err = conn.socket.JoinGroup(conn.listenInterface, &net.UDPAddr{IP: group})
 	if err != nil {
 		return nil, err
 	}
 
 	go conn.listenLoop()
+
+	// re-join multicast group every 3 minutes https://gitlab.com/bboehmke/sunny/-/issues/4
+	go handleResetMulticastGroup(&conn)
 
 	connections[inf] = &conn
 	return &conn, nil
@@ -94,7 +103,7 @@ func (c *Connection) listenLoop() {
 	b := make([]byte, 2048)
 
 	for c.socket != nil {
-		n, src, err := c.socket.ReadFromUDP(b)
+		n, _, src, err := c.socket.ReadFrom(b)
 		if err != nil {
 			// failed to read from udp -> retry
 			if DetailedPacketLogging.Load() {
@@ -103,7 +112,9 @@ func (c *Connection) listenLoop() {
 			continue
 		}
 
-		srcIP := src.IP.String()
+		// remove port number from source address
+		srcIP := strings.Split(src.String(), ":")[0]
+
 		var pack proto.Packet
 		err = pack.Read(b[:n])
 		if err != nil {
@@ -196,9 +207,27 @@ func (c *Connection) unregisterDiscoverer(ch chan string) {
 // sendPacket to the given address
 func (c *Connection) sendPacket(address *net.UDPAddr, packet *proto.Packet) error {
 	Log.Printf("send %s: [%s]", address.IP.String(), packet)
-	_, err := c.socket.WriteToUDP(packet.Bytes(), address)
+	_, err := c.socket.WriteTo(packet.Bytes(), nil, address)
 	if err != nil {
 		return fmt.Errorf("send: %w", err)
 	}
 	return nil
+}
+
+// reset multicast group membership
+func (c *Connection) resetMulticastGroup() {
+	if err := c.socket.LeaveGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
+		Log.Printf("error leaving multicast group: %w", err)
+	}
+	if err := c.socket.JoinGroup(c.listenInterface, &net.UDPAddr{IP: group}); err != nil {
+		Log.Printf("error re-joining multicast group %w", err)
+	}
+}
+
+// executes a multicast reset every 180 seconds (3 minutes)
+func handleResetMulticastGroup(c *Connection) {
+	ticker := time.Tick(180 * time.Second)
+	for range ticker {
+		c.resetMulticastGroup()
+	}
 }
