@@ -22,8 +22,16 @@ import "gitlab.com/bboehmke/sunny/proto/net2"
 type ValueID int
 
 const (
+	// ----- Active power (AC) -----
+
 	// ActivePowerMax Maximum active power (AC)
 	ActivePowerMax ValueID = iota + 1
+	// ActivePowerMaxWarning Nominal active power in Warning Mode (AC)
+	ActivePowerMaxWarning
+	// ActivePowerMaxFault Nominal active power in Fault Mode (AC)
+	ActivePowerMaxFault
+	// ActivePowerLimit Maximum active power of the device (AC)
+	ActivePowerLimit
 	// ActivePowerMinus Active power - (AC)
 	ActivePowerMinus
 	// ActivePowerMinusL1 Active power - L1 (AC)
@@ -40,6 +48,22 @@ const (
 	ActivePowerPlusL2
 	// ActivePowerPlusL3 Active power + L3 (AC)
 	ActivePowerPlusL3
+
+	// ----- Hybrid-inverter metering power (instantaneous) -----
+
+	// PvPower PV power generated (instantaneous, hybrid inverters)
+	PvPower
+	// GridPowerExport Power grid feed-in (instantaneous)
+	GridPowerExport
+	// GridPowerImport Power grid reference (instantaneous)
+	GridPowerImport
+	// ConsumptionPower Consumer power (instantaneous house consumption)
+	ConsumptionPower
+	// SelfConsumptionPower Current self-consumption (instantaneous)
+	SelfConsumptionPower
+
+	// ----- Apparent power (AC) -----
+
 	// ApparentPowerMinus Apparent power - (AC)
 	ApparentPowerMinus
 	// ApparentPowerMinusL1 Apparent power - L1 (AC)
@@ -56,6 +80,9 @@ const (
 	ApparentPowerPlusL2
 	// ApparentPowerPlusL3 Apparent power + L3 (AC)
 	ApparentPowerPlusL3
+
+	// ----- Reactive power (AC) -----
+
 	// ReactivePowerMinus Reactive power - (AC)
 	ReactivePowerMinus
 	// ReactivePowerMinusL1 Reactive power - L1 (AC)
@@ -72,10 +99,16 @@ const (
 	ReactivePowerPlusL2
 	// ReactivePowerPlusL3 Reactive power + L3 (AC)
 	ReactivePowerPlusL3
+
+	// ----- DC string power -----
+
 	// PowerS1 Power String 1 (DC)
 	PowerS1
 	// PowerS2 Power String 2 (DC)
 	PowerS2
+
+	// ----- Power factor (AC) -----
+
 	// PowerFactor Power Factor (AC)
 	PowerFactor
 	// PowerFactorL1 Power Factor L1 (AC)
@@ -84,6 +117,8 @@ const (
 	PowerFactorL2
 	// PowerFactorL3 Power Factor L3 (AC)
 	PowerFactorL3
+
+	// ----- Active energy (AC) — primary unit: Ws (raw × Factor 3600) -----
 
 	// ActiveEnergyMinus Active Energy - (AC)
 	ActiveEnergyMinus
@@ -103,6 +138,61 @@ const (
 	ActiveEnergyPlusL3
 	// ActiveEnergyPlusToday Active Energy + today (AC)
 	ActiveEnergyPlusToday
+
+	// ----- Hybrid-inverter metering energy counters (Ws) -----
+
+	// PvEnergyTotal PV generation lifetime counter
+	PvEnergyTotal
+	// GridEnergyExport Grid feed-in lifetime counter
+	GridEnergyExport
+	// GridEnergyImport Grid reference lifetime counter
+	GridEnergyImport
+	// ConsumptionEnergy House consumption lifetime counter
+	ConsumptionEnergy
+	// GridEnergyExportDay Grid feed-in counter today
+	GridEnergyExportDay
+	// GridEnergyImportDay Grid reference counter today
+	GridEnergyImportDay
+	// BatteryEnergyCharge Battery absorbed energy total
+	BatteryEnergyCharge
+	// BatteryEnergyDischarge Battery released energy total
+	BatteryEnergyDischarge
+	// SelfConsumption Self-consumption lifetime counter
+	SelfConsumption
+
+	// ----- kWh aliases for inverter energy counters -----
+	// These ValueIDs hold the same measurement as their Ws-flavoured siblings
+	// above, but already divided by 3600000 — so callers that prefer kWh can
+	// read them directly without rescaling. They are populated automatically by
+	// parseInverterValues whenever the corresponding Ws value is set.
+
+	// ActiveEnergyMinusKWh Active Energy - (AC) in KWh
+	ActiveEnergyMinusKWh
+	// ActiveEnergyPlusKWh Active Energy + (AC) in KWh
+	ActiveEnergyPlusKWh
+	// ActiveEnergyPlusTodayKWh Active Energy + today (AC) in KWh
+	ActiveEnergyPlusTodayKWh
+	// PvEnergyTotalKWh PV generation lifetime counter in KWh
+	PvEnergyTotalKWh
+	// GridEnergyExportKWh Grid feed-in lifetime counter in KWh
+	GridEnergyExportKWh
+	// GridEnergyImportKWh Grid reference lifetime counter in KWh
+	GridEnergyImportKWh
+	// ConsumptionEnergyKWh House consumption lifetime counter in KWh
+	ConsumptionEnergyKWh
+	// GridEnergyExportDayKWh Grid feed-in counter today in KWh
+	GridEnergyExportDayKWh
+	// GridEnergyImportDayKWh Grid reference counter today in KWh
+	GridEnergyImportDayKWh
+	// BatteryEnergyChargeKWh Battery absorbed energy total in KWh
+	BatteryEnergyChargeKWh
+	// BatteryEnergyDischargeKWh Battery released energy total in KWh
+	BatteryEnergyDischargeKWh
+	// SelfConsumptionKWh Self-consumption lifetime counter in KWh
+	SelfConsumptionKWh
+
+	// ----- Apparent / reactive energy (AC) -----
+
 	// ApparentEnergyMinus Apparent Energy - (AC)
 	ApparentEnergyMinus
 	// ApparentEnergyMinusL1 Apparent Energy - L1 (AC)
@@ -136,6 +226,8 @@ const (
 	// ReactiveEnergyPlusL3 Reactive Energy + L3 (AC)
 	ReactiveEnergyPlusL3
 
+	// ----- Current (AC + DC) -----
+
 	// CurrentL1 Current L1 (AC)
 	CurrentL1
 	// CurrentL2 Current L2 (AC)
@@ -147,28 +239,56 @@ const (
 	// CurrentS2 Current String 2 (DC)
 	CurrentS2
 
+	// ----- Voltage (AC + DC) -----
+
 	// VoltageL1 Voltage L1 (AC)
 	VoltageL1
 	// VoltageL2 Voltage L2 (AC)
 	VoltageL2
 	// VoltageL3 Voltage L3 (AC)
 	VoltageL3
+	// VoltageL1L2 Grid voltage line-to-line L1-L2
+	VoltageL1L2
+	// VoltageL2L3 Grid voltage line-to-line L2-L3
+	VoltageL2L3
+	// VoltageL3L1 Grid voltage line-to-line L3-L1
+	VoltageL3L1
 	// VoltageS1 Voltage String 1 (DC)
 	VoltageS1
 	// VoltageS2 Voltage String 2 (DC)
 	VoltageS2
 
+	// ----- Time / frequency -----
+
 	// TimeFeed Feed in time
 	TimeFeed
 	// TimeOperating Operation time
 	TimeOperating
+	// WaitTimeFeedIn Waiting time until feed-in
+	WaitTimeFeedIn
+	// TimeGridFailure Grid failure / power outage duration
+	TimeGridFailure
 	// UtilityFrequency Utility frequency
 	UtilityFrequency
+
+	// ----- Battery -----
 
 	// BatteryCharge Charge state of battery
 	BatteryCharge
 	// BatteryTemperature Temperature of battery
 	BatteryTemperature
+	// BatteryChargeCycles Battery charge throughput cycles
+	BatteryChargeCycles
+	// BatteryChargeAh Battery Ah counter (charged)
+	BatteryChargeAh
+	// BatteryDischargeAh Battery Ah counter (discharged)
+	BatteryDischargeAh
+	// BatteryVoltage Battery DC voltage
+	BatteryVoltage
+	// BatteryCurrent Battery DC current (signed)
+	BatteryCurrent
+
+	// ----- Device info / status -----
 
 	// DeviceClass ID of device class
 	DeviceClass
@@ -202,8 +322,18 @@ var valueDesc = map[ValueID]ValueDescription{
 	ActivePowerMinusL3:   {"Active power - L3 (AC)", "W", "power"},
 	ActivePowerPlus:      {"Active power + (AC)", "W", "power"},
 	ActivePowerPlusL1:    {"Active power + L1 (AC)", "W", "power"},
-	ActivePowerPlusL2:    {"Active power + L2 (AC)", "W", "power"},
-	ActivePowerPlusL3:    {"Active power + L3 (AC)", "W", "power"},
+	ActivePowerPlusL2:     {"Active power + L2 (AC)", "W", "power"},
+	ActivePowerPlusL3:     {"Active power + L3 (AC)", "W", "power"},
+	ActivePowerMaxWarning: {"Nominal active power in Warning Mode (AC)", "W", "power"},
+	ActivePowerMaxFault:   {"Nominal active power in Fault Mode (AC)", "W", "power"},
+	ActivePowerLimit:      {"Maximum active power of device (AC)", "W", "power"},
+
+	PvPower:              {"PV power generated", "W", "power"},
+	GridPowerExport:      {"Power grid feed-in (AC)", "W", "power"},
+	GridPowerImport:      {"Power grid reference (AC)", "W", "power"},
+	ConsumptionPower:     {"Consumer power (AC)", "W", "power"},
+	SelfConsumptionPower: {"Current self-consumption", "W", "power"},
+
 	ApparentPowerMinus:   {"Apparent power - (AC)", "VA", "power"},
 	ApparentPowerMinusL1: {"Apparent power - L1 (AC)", "VA", "power"},
 	ApparentPowerMinusL2: {"Apparent power - L2 (AC)", "VA", "power"},
@@ -236,6 +366,31 @@ var valueDesc = map[ValueID]ValueDescription{
 	ActiveEnergyPlusL2:    {"Active Energy + L2 (AC)", "Ws", "energy"},
 	ActiveEnergyPlusL3:    {"Active Energy + L3 (AC)", "Ws", "energy"},
 	ActiveEnergyPlusToday: {"Active Energy + today (AC)", "Ws", "energy"},
+
+	PvEnergyTotal:          {"PV generation counter", "Ws", "energy"},
+	GridEnergyExport:       {"Grid feed-in counter (AC)", "Ws", "energy"},
+	GridEnergyImport:       {"Grid reference counter (AC)", "Ws", "energy"},
+	ConsumptionEnergy:      {"Consumption counter (AC)", "Ws", "energy"},
+	GridEnergyExportDay:    {"Grid feed-in today (AC)", "Ws", "energy"},
+	GridEnergyImportDay:    {"Grid reference today (AC)", "Ws", "energy"},
+	BatteryEnergyCharge:    {"Battery absorbed energy", "Ws", "energy"},
+	BatteryEnergyDischarge: {"Battery released energy", "Ws", "energy"},
+	SelfConsumption:        {"Self-consumption counter", "Ws", "energy"},
+
+	// kWh aliases (raw value × Factor 1 / 3600000) — auto-populated by parseInverterValues
+	ActiveEnergyMinusKWh:      {"Active Energy - (AC)", "kWh", "energy"},
+	ActiveEnergyPlusKWh:       {"Active Energy + (AC)", "kWh", "energy"},
+	ActiveEnergyPlusTodayKWh:  {"Active Energy + today (AC)", "kWh", "energy"},
+	PvEnergyTotalKWh:          {"PV generation counter", "kWh", "energy"},
+	GridEnergyExportKWh:       {"Grid feed-in counter (AC)", "kWh", "energy"},
+	GridEnergyImportKWh:       {"Grid reference counter (AC)", "kWh", "energy"},
+	ConsumptionEnergyKWh:      {"Consumption counter (AC)", "kWh", "energy"},
+	GridEnergyExportDayKWh:    {"Grid feed-in today (AC)", "kWh", "energy"},
+	GridEnergyImportDayKWh:    {"Grid reference today (AC)", "kWh", "energy"},
+	BatteryEnergyChargeKWh:    {"Battery absorbed energy", "kWh", "energy"},
+	BatteryEnergyDischargeKWh: {"Battery released energy", "kWh", "energy"},
+	SelfConsumptionKWh:        {"Self-consumption counter", "kWh", "energy"},
+
 	ApparentEnergyMinus:   {"Apparent Energy - (AC)", "VAs", "energy"},
 	ApparentEnergyMinusL1: {"Apparent Energy - L1 (AC)", "VAs", "energy"},
 	ApparentEnergyMinusL2: {"Apparent Energy - L2 (AC)", "VAs", "energy"},
@@ -259,18 +414,28 @@ var valueDesc = map[ValueID]ValueDescription{
 	CurrentS1: {"Current String 1 (DC)", "A", "current"},
 	CurrentS2: {"Current String 2 (DC)", "A", "current"},
 
-	VoltageL1: {"Voltage L1 (AC)", "V", "voltage"},
-	VoltageL2: {"Voltage L2 (AC)", "V", "voltage"},
-	VoltageL3: {"Voltage L3 (AC)", "V", "voltage"},
-	VoltageS1: {"Voltage String 1 (DC)", "V", "voltage"},
-	VoltageS2: {"Voltage String 2 (DC)", "V", "voltage"},
+	VoltageL1:   {"Voltage L1 (AC)", "V", "voltage"},
+	VoltageL2:   {"Voltage L2 (AC)", "V", "voltage"},
+	VoltageL3:   {"Voltage L3 (AC)", "V", "voltage"},
+	VoltageL1L2: {"Voltage L1-L2 (AC line-to-line)", "V", "voltage"},
+	VoltageL2L3: {"Voltage L2-L3 (AC line-to-line)", "V", "voltage"},
+	VoltageL3L1: {"Voltage L3-L1 (AC line-to-line)", "V", "voltage"},
+	VoltageS1:   {"Voltage String 1 (DC)", "V", "voltage"},
+	VoltageS2:   {"Voltage String 2 (DC)", "V", "voltage"},
 
 	TimeFeed:         {"Feed in time", "s", ""},
 	TimeOperating:    {"Operation time", "s", ""},
+	WaitTimeFeedIn:   {"Waiting time until feed-in", "s", ""},
+	TimeGridFailure:  {"Grid failure / power outage time", "s", ""},
 	UtilityFrequency: {"Utility frequency", "Hz", ""},
 
-	BatteryCharge:      {"Charge state of battery", "%", ""},
-	BatteryTemperature: {"Temperature of battery", "°C", "temperature"},
+	BatteryCharge:       {"Charge state of battery", "%", ""},
+	BatteryTemperature:  {"Temperature of battery", "°C", "temperature"},
+	BatteryChargeCycles: {"Battery charge throughput cycles", "", ""},
+	BatteryChargeAh:     {"Battery charge counter", "Ah", ""},
+	BatteryDischargeAh:  {"Battery discharge counter", "Ah", ""},
+	BatteryVoltage:      {"Battery voltage", "V", "voltage"},
+	BatteryCurrent:      {"Battery current", "A", "current"},
 
 	DeviceClass:       {"ID of device class", "", ""},
 	DeviceGridRelay:   {"Status of grid relay", "", ""},
@@ -279,6 +444,23 @@ var valueDesc = map[ValueID]ValueDescription{
 	DeviceTemperature: {"Temperature of device", "°C", "temperature"},
 	DeviceType:        {"ID of device type", "", ""},
 	SoftwareVersion:   {"Software version of device", "", ""},
+}
+
+// energyKWhAliases maps Ws-flavoured energy ValueIDs to their kWh equivalents.
+// parseInverterValues populates the kWh entry alongside the Ws one (kWh = Ws/3600000).
+var energyKWhAliases = map[ValueID]ValueID{
+	ActiveEnergyMinus:      ActiveEnergyMinusKWh,
+	ActiveEnergyPlus:       ActiveEnergyPlusKWh,
+	ActiveEnergyPlusToday:  ActiveEnergyPlusTodayKWh,
+	PvEnergyTotal:          PvEnergyTotalKWh,
+	GridEnergyExport:       GridEnergyExportKWh,
+	GridEnergyImport:       GridEnergyImportKWh,
+	ConsumptionEnergy:      ConsumptionEnergyKWh,
+	GridEnergyExportDay:    GridEnergyExportDayKWh,
+	GridEnergyImportDay:    GridEnergyImportDayKWh,
+	BatteryEnergyCharge:    BatteryEnergyChargeKWh,
+	BatteryEnergyDischarge: BatteryEnergyDischargeKWh,
+	SelfConsumption:        SelfConsumptionKWh,
 }
 
 // GetValueDescription for value
@@ -384,6 +566,63 @@ var inverterValues = []InverterValuesDef{
 	{0x5800, 0x00821E00, 0x008220FF, 0x00, 0x821E, DeviceName, 0},
 	{0x5800, 0x00821E00, 0x008220FF, 0x00, 0x821F, DeviceClass, 0},
 	{0x5800, 0x00821E00, 0x008220FF, 0x00, 0x8220, DeviceType, 0},
+	{0x5800, 0x00823400, 0x008234FF, 0x00, 0x8234, SoftwareVersion, 0},
+
+	// Nominal power in Warning / Fault mode (covered by existing PACMAX range)
+	{0x5100, 0x00411E00, 0x004120FF, 0x00, 0x411F, ActivePowerMaxWarning, 0},
+	{0x5100, 0x00411E00, 0x004120FF, 0x00, 0x4120, ActivePowerMaxFault, 0},
+	{0x5100, 0x00832A00, 0x00832AFF, 0x00, 0x832A, ActivePowerLimit, 0},
+
+	// Waiting time until feed-in
+	{0x5100, 0x00416600, 0x004166FF, 0x00, 0x4166, WaitTimeFeedIn, 0},
+
+	// Energy counters and grid failure time — consolidated into a single
+	// cmd 0x5400 request 0x00462300..0x00463BFF to keep request count low
+	// (avoids three separate sub-requests for 0x462x/0x4631/0x463Ax codes).
+	// Factor 3600 converts raw Wh into Ws to align with the existing
+	// ActiveEnergyPlus/ActiveEnergyPlusToday unit convention ("Ws").
+	{0x5400, 0x00462300, 0x00463BFF, 0x00, 0x4623, PvEnergyTotal, 3600},
+	{0x5400, 0x00462300, 0x00463BFF, 0x00, 0x4624, GridEnergyExport, 3600},
+	{0x5400, 0x00462300, 0x00463BFF, 0x00, 0x4625, GridEnergyImport, 3600},
+	{0x5400, 0x00462300, 0x00463BFF, 0x00, 0x4626, ConsumptionEnergy, 3600},
+	{0x5400, 0x00462300, 0x00463BFF, 0x00, 0x4627, GridEnergyExportDay, 3600},
+	{0x5400, 0x00462300, 0x00463BFF, 0x00, 0x4628, GridEnergyImportDay, 3600},
+	{0x5400, 0x00462300, 0x00463BFF, 0x00, 0x4631, TimeGridFailure, 0},
+	{0x5400, 0x00462300, 0x00463BFF, 0x00, 0x463A, BatteryEnergyCharge, 3600},
+	{0x5400, 0x00462300, 0x00463BFF, 0x00, 0x463B, BatteryEnergyDischarge, 3600},
+
+	// Instantaneous power (hybrid metering, W) — cmd 0x5100
+	{0x5100, 0x00463500, 0x004639FF, 0x00, 0x4635, PvPower, 0},
+	{0x5100, 0x00463500, 0x004639FF, 0x00, 0x4636, GridPowerExport, 0},
+	{0x5100, 0x00463500, 0x004639FF, 0x00, 0x4637, GridPowerImport, 0},
+	{0x5100, 0x00463500, 0x004639FF, 0x00, 0x4639, ConsumptionPower, 0},
+
+	// Line-to-line voltages (reuse existing AC voltage/current range)
+	{0x5100, 0x00464800, 0x004655FF, 0x00, 0x464B, VoltageL1L2, 0.01},
+	{0x5100, 0x00464800, 0x004655FF, 0x00, 0x464C, VoltageL2L3, 0.01},
+	{0x5100, 0x00464800, 0x004655FF, 0x00, 0x464D, VoltageL3L1, 0.01},
+
+	// Alternate per-phase current codes (older firmware), same range as above
+	{0x5100, 0x00464800, 0x004655FF, 0x00, 0x4650, CurrentL1, 0.001},
+	{0x5100, 0x00464800, 0x004655FF, 0x00, 0x4651, CurrentL2, 0.001},
+	{0x5100, 0x00464800, 0x004655FF, 0x00, 0x4652, CurrentL3, 0.001},
+
+	// Self-consumption (KWh counter and W instantaneous)
+	// 0x46AA is a Wh counter → Factor 3600 to expose as Ws (consistent with
+	// ActiveEnergyPlus etc.). 0x46AB is instantaneous W, no factor.
+	{0x5100, 0x0046AA00, 0x0046AEFF, 0x00, 0x46AA, SelfConsumption, 3600},
+	{0x5100, 0x0046AA00, 0x0046AEFF, 0x00, 0x46AB, SelfConsumptionPower, 0},
+
+	// Battery additions (covered by existing BatteryInfo range 0x491E..0x495DFF)
+	{0x5100, 0x00491E00, 0x00495DFF, 0x00, 0x491E, BatteryChargeCycles, 0},
+	{0x5100, 0x00491E00, 0x00495DFF, 0x00, 0x4926, BatteryChargeAh, 0},
+	{0x5100, 0x00491E00, 0x00495DFF, 0x00, 0x4927, BatteryDischargeAh, 0},
+	{0x5100, 0x00491E00, 0x00495DFF, 0x00, 0x495C, BatteryVoltage, 0.01},
+	{0x5100, 0x00491E00, 0x00495DFF, 0x00, 0x495D, BatteryCurrent, 0.001},
+
+	// Alternate DC power range for SB 1600TL-10 family
+	{0x5380, 0x00451E00, 0x00451EFF, 0x01, 0x451E, PowerS1, 0},
+	{0x5380, 0x00451E00, 0x00451EFF, 0x02, 0x451E, PowerS2, 0},
 }
 
 // checkInverterValue checks if response is a known value
@@ -454,6 +693,14 @@ func parseInverterValues(values []*net2.ResponseValue) map[ValueID]interface{} {
 				}
 			}
 			data[id] = value
+
+			// also expose kWh-flavoured alias for energy counters that are
+			// stored in Ws (raw × 3600). kWh = Ws / 3600000.
+			if aliasID, ok := energyKWhAliases[id]; ok {
+				if v, ok := value.(float64); ok {
+					data[aliasID] = v / 3600000
+				}
+			}
 		}
 	}
 	return data

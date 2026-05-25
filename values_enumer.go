@@ -7,11 +7,11 @@ import (
 	"strings"
 )
 
-const _ValueIDName = "ActivePowerMaxActivePowerMinusActivePowerMinusL1ActivePowerMinusL2ActivePowerMinusL3ActivePowerPlusActivePowerPlusL1ActivePowerPlusL2ActivePowerPlusL3ApparentPowerMinusApparentPowerMinusL1ApparentPowerMinusL2ApparentPowerMinusL3ApparentPowerPlusApparentPowerPlusL1ApparentPowerPlusL2ApparentPowerPlusL3ReactivePowerMinusReactivePowerMinusL1ReactivePowerMinusL2ReactivePowerMinusL3ReactivePowerPlusReactivePowerPlusL1ReactivePowerPlusL2ReactivePowerPlusL3PowerS1PowerS2PowerFactorPowerFactorL1PowerFactorL2PowerFactorL3ActiveEnergyMinusActiveEnergyMinusL1ActiveEnergyMinusL2ActiveEnergyMinusL3ActiveEnergyPlusActiveEnergyPlusL1ActiveEnergyPlusL2ActiveEnergyPlusL3ActiveEnergyPlusTodayApparentEnergyMinusApparentEnergyMinusL1ApparentEnergyMinusL2ApparentEnergyMinusL3ApparentEnergyPlusApparentEnergyPlusL1ApparentEnergyPlusL2ApparentEnergyPlusL3ReactiveEnergyMinusReactiveEnergyMinusL1ReactiveEnergyMinusL2ReactiveEnergyMinusL3ReactiveEnergyPlusReactiveEnergyPlusL1ReactiveEnergyPlusL2ReactiveEnergyPlusL3CurrentL1CurrentL2CurrentL3CurrentS1CurrentS2VoltageL1VoltageL2VoltageL3VoltageS1VoltageS2TimeFeedTimeOperatingUtilityFrequencyBatteryChargeBatteryTemperatureDeviceClassDeviceGridRelayDeviceNameDeviceStatusDeviceTemperatureDeviceTypeSoftwareVersion"
+const _ValueIDName = "ActivePowerMaxActivePowerMaxWarningActivePowerMaxFaultActivePowerLimitActivePowerMinusActivePowerMinusL1ActivePowerMinusL2ActivePowerMinusL3ActivePowerPlusActivePowerPlusL1ActivePowerPlusL2ActivePowerPlusL3PvPowerGridPowerExportGridPowerImportConsumptionPowerSelfConsumptionPowerApparentPowerMinusApparentPowerMinusL1ApparentPowerMinusL2ApparentPowerMinusL3ApparentPowerPlusApparentPowerPlusL1ApparentPowerPlusL2ApparentPowerPlusL3ReactivePowerMinusReactivePowerMinusL1ReactivePowerMinusL2ReactivePowerMinusL3ReactivePowerPlusReactivePowerPlusL1ReactivePowerPlusL2ReactivePowerPlusL3PowerS1PowerS2PowerFactorPowerFactorL1PowerFactorL2PowerFactorL3ActiveEnergyMinusActiveEnergyMinusL1ActiveEnergyMinusL2ActiveEnergyMinusL3ActiveEnergyPlusActiveEnergyPlusL1ActiveEnergyPlusL2ActiveEnergyPlusL3ActiveEnergyPlusTodayPvEnergyTotalGridEnergyExportGridEnergyImportConsumptionEnergyGridEnergyExportDayGridEnergyImportDayBatteryEnergyChargeBatteryEnergyDischargeSelfConsumptionActiveEnergyMinusKWhActiveEnergyPlusKWhActiveEnergyPlusTodayKWhPvEnergyTotalKWhGridEnergyExportKWhGridEnergyImportKWhConsumptionEnergyKWhGridEnergyExportDayKWhGridEnergyImportDayKWhBatteryEnergyChargeKWhBatteryEnergyDischargeKWhSelfConsumptionKWhApparentEnergyMinusApparentEnergyMinusL1ApparentEnergyMinusL2ApparentEnergyMinusL3ApparentEnergyPlusApparentEnergyPlusL1ApparentEnergyPlusL2ApparentEnergyPlusL3ReactiveEnergyMinusReactiveEnergyMinusL1ReactiveEnergyMinusL2ReactiveEnergyMinusL3ReactiveEnergyPlusReactiveEnergyPlusL1ReactiveEnergyPlusL2ReactiveEnergyPlusL3CurrentL1CurrentL2CurrentL3CurrentS1CurrentS2VoltageL1VoltageL2VoltageL3VoltageL1L2VoltageL2L3VoltageL3L1VoltageS1VoltageS2TimeFeedTimeOperatingWaitTimeFeedInTimeGridFailureUtilityFrequencyBatteryChargeBatteryTemperatureBatteryChargeCyclesBatteryChargeAhBatteryDischargeAhBatteryVoltageBatteryCurrentDeviceClassDeviceGridRelayDeviceNameDeviceStatusDeviceTemperatureDeviceTypeSoftwareVersion"
 
-var _ValueIDIndex = [...]uint16{0, 14, 30, 48, 66, 84, 99, 116, 133, 150, 168, 188, 208, 228, 245, 264, 283, 302, 320, 340, 360, 380, 397, 416, 435, 454, 461, 468, 479, 492, 505, 518, 535, 554, 573, 592, 608, 626, 644, 662, 683, 702, 723, 744, 765, 783, 803, 823, 843, 862, 883, 904, 925, 943, 963, 983, 1003, 1012, 1021, 1030, 1039, 1048, 1057, 1066, 1075, 1084, 1093, 1101, 1114, 1130, 1143, 1161, 1172, 1187, 1197, 1209, 1226, 1236, 1251}
+var _ValueIDIndex = [...]uint16{0, 14, 35, 54, 70, 86, 104, 122, 140, 155, 172, 189, 206, 213, 228, 243, 259, 279, 297, 317, 337, 357, 374, 393, 412, 431, 449, 469, 489, 509, 526, 545, 564, 583, 590, 597, 608, 621, 634, 647, 664, 683, 702, 721, 737, 755, 773, 791, 812, 825, 841, 857, 874, 893, 912, 931, 953, 968, 988, 1007, 1031, 1047, 1066, 1085, 1105, 1127, 1149, 1171, 1196, 1214, 1233, 1254, 1275, 1296, 1314, 1334, 1354, 1374, 1393, 1414, 1435, 1456, 1474, 1494, 1514, 1534, 1543, 1552, 1561, 1570, 1579, 1588, 1597, 1606, 1617, 1628, 1639, 1648, 1657, 1665, 1678, 1692, 1707, 1723, 1736, 1754, 1773, 1788, 1806, 1820, 1834, 1845, 1860, 1870, 1882, 1899, 1909, 1924}
 
-const _ValueIDLowerName = "activepowermaxactivepowerminusactivepowerminusl1activepowerminusl2activepowerminusl3activepowerplusactivepowerplusl1activepowerplusl2activepowerplusl3apparentpowerminusapparentpowerminusl1apparentpowerminusl2apparentpowerminusl3apparentpowerplusapparentpowerplusl1apparentpowerplusl2apparentpowerplusl3reactivepowerminusreactivepowerminusl1reactivepowerminusl2reactivepowerminusl3reactivepowerplusreactivepowerplusl1reactivepowerplusl2reactivepowerplusl3powers1powers2powerfactorpowerfactorl1powerfactorl2powerfactorl3activeenergyminusactiveenergyminusl1activeenergyminusl2activeenergyminusl3activeenergyplusactiveenergyplusl1activeenergyplusl2activeenergyplusl3activeenergyplustodayapparentenergyminusapparentenergyminusl1apparentenergyminusl2apparentenergyminusl3apparentenergyplusapparentenergyplusl1apparentenergyplusl2apparentenergyplusl3reactiveenergyminusreactiveenergyminusl1reactiveenergyminusl2reactiveenergyminusl3reactiveenergyplusreactiveenergyplusl1reactiveenergyplusl2reactiveenergyplusl3currentl1currentl2currentl3currents1currents2voltagel1voltagel2voltagel3voltages1voltages2timefeedtimeoperatingutilityfrequencybatterychargebatterytemperaturedeviceclassdevicegridrelaydevicenamedevicestatusdevicetemperaturedevicetypesoftwareversion"
+const _ValueIDLowerName = "activepowermaxactivepowermaxwarningactivepowermaxfaultactivepowerlimitactivepowerminusactivepowerminusl1activepowerminusl2activepowerminusl3activepowerplusactivepowerplusl1activepowerplusl2activepowerplusl3pvpowergridpowerexportgridpowerimportconsumptionpowerselfconsumptionpowerapparentpowerminusapparentpowerminusl1apparentpowerminusl2apparentpowerminusl3apparentpowerplusapparentpowerplusl1apparentpowerplusl2apparentpowerplusl3reactivepowerminusreactivepowerminusl1reactivepowerminusl2reactivepowerminusl3reactivepowerplusreactivepowerplusl1reactivepowerplusl2reactivepowerplusl3powers1powers2powerfactorpowerfactorl1powerfactorl2powerfactorl3activeenergyminusactiveenergyminusl1activeenergyminusl2activeenergyminusl3activeenergyplusactiveenergyplusl1activeenergyplusl2activeenergyplusl3activeenergyplustodaypvenergytotalgridenergyexportgridenergyimportconsumptionenergygridenergyexportdaygridenergyimportdaybatteryenergychargebatteryenergydischargeselfconsumptionactiveenergyminuskwhactiveenergypluskwhactiveenergyplustodaykwhpvenergytotalkwhgridenergyexportkwhgridenergyimportkwhconsumptionenergykwhgridenergyexportdaykwhgridenergyimportdaykwhbatteryenergychargekwhbatteryenergydischargekwhselfconsumptionkwhapparentenergyminusapparentenergyminusl1apparentenergyminusl2apparentenergyminusl3apparentenergyplusapparentenergyplusl1apparentenergyplusl2apparentenergyplusl3reactiveenergyminusreactiveenergyminusl1reactiveenergyminusl2reactiveenergyminusl3reactiveenergyplusreactiveenergyplusl1reactiveenergyplusl2reactiveenergyplusl3currentl1currentl2currentl3currents1currents2voltagel1voltagel2voltagel3voltagel1l2voltagel2l3voltagel3l1voltages1voltages2timefeedtimeoperatingwaittimefeedintimegridfailureutilityfrequencybatterychargebatterytemperaturebatterychargecyclesbatterychargeahbatterydischargeahbatteryvoltagebatterycurrentdeviceclassdevicegridrelaydevicenamedevicestatusdevicetemperaturedevicetypesoftwareversion"
 
 func (i ValueID) String() string {
 	i -= 1
@@ -26,325 +26,481 @@ func (i ValueID) String() string {
 func _ValueIDNoOp() {
 	var x [1]struct{}
 	_ = x[ActivePowerMax-(1)]
-	_ = x[ActivePowerMinus-(2)]
-	_ = x[ActivePowerMinusL1-(3)]
-	_ = x[ActivePowerMinusL2-(4)]
-	_ = x[ActivePowerMinusL3-(5)]
-	_ = x[ActivePowerPlus-(6)]
-	_ = x[ActivePowerPlusL1-(7)]
-	_ = x[ActivePowerPlusL2-(8)]
-	_ = x[ActivePowerPlusL3-(9)]
-	_ = x[ApparentPowerMinus-(10)]
-	_ = x[ApparentPowerMinusL1-(11)]
-	_ = x[ApparentPowerMinusL2-(12)]
-	_ = x[ApparentPowerMinusL3-(13)]
-	_ = x[ApparentPowerPlus-(14)]
-	_ = x[ApparentPowerPlusL1-(15)]
-	_ = x[ApparentPowerPlusL2-(16)]
-	_ = x[ApparentPowerPlusL3-(17)]
-	_ = x[ReactivePowerMinus-(18)]
-	_ = x[ReactivePowerMinusL1-(19)]
-	_ = x[ReactivePowerMinusL2-(20)]
-	_ = x[ReactivePowerMinusL3-(21)]
-	_ = x[ReactivePowerPlus-(22)]
-	_ = x[ReactivePowerPlusL1-(23)]
-	_ = x[ReactivePowerPlusL2-(24)]
-	_ = x[ReactivePowerPlusL3-(25)]
-	_ = x[PowerS1-(26)]
-	_ = x[PowerS2-(27)]
-	_ = x[PowerFactor-(28)]
-	_ = x[PowerFactorL1-(29)]
-	_ = x[PowerFactorL2-(30)]
-	_ = x[PowerFactorL3-(31)]
-	_ = x[ActiveEnergyMinus-(32)]
-	_ = x[ActiveEnergyMinusL1-(33)]
-	_ = x[ActiveEnergyMinusL2-(34)]
-	_ = x[ActiveEnergyMinusL3-(35)]
-	_ = x[ActiveEnergyPlus-(36)]
-	_ = x[ActiveEnergyPlusL1-(37)]
-	_ = x[ActiveEnergyPlusL2-(38)]
-	_ = x[ActiveEnergyPlusL3-(39)]
-	_ = x[ActiveEnergyPlusToday-(40)]
-	_ = x[ApparentEnergyMinus-(41)]
-	_ = x[ApparentEnergyMinusL1-(42)]
-	_ = x[ApparentEnergyMinusL2-(43)]
-	_ = x[ApparentEnergyMinusL3-(44)]
-	_ = x[ApparentEnergyPlus-(45)]
-	_ = x[ApparentEnergyPlusL1-(46)]
-	_ = x[ApparentEnergyPlusL2-(47)]
-	_ = x[ApparentEnergyPlusL3-(48)]
-	_ = x[ReactiveEnergyMinus-(49)]
-	_ = x[ReactiveEnergyMinusL1-(50)]
-	_ = x[ReactiveEnergyMinusL2-(51)]
-	_ = x[ReactiveEnergyMinusL3-(52)]
-	_ = x[ReactiveEnergyPlus-(53)]
-	_ = x[ReactiveEnergyPlusL1-(54)]
-	_ = x[ReactiveEnergyPlusL2-(55)]
-	_ = x[ReactiveEnergyPlusL3-(56)]
-	_ = x[CurrentL1-(57)]
-	_ = x[CurrentL2-(58)]
-	_ = x[CurrentL3-(59)]
-	_ = x[CurrentS1-(60)]
-	_ = x[CurrentS2-(61)]
-	_ = x[VoltageL1-(62)]
-	_ = x[VoltageL2-(63)]
-	_ = x[VoltageL3-(64)]
-	_ = x[VoltageS1-(65)]
-	_ = x[VoltageS2-(66)]
-	_ = x[TimeFeed-(67)]
-	_ = x[TimeOperating-(68)]
-	_ = x[UtilityFrequency-(69)]
-	_ = x[BatteryCharge-(70)]
-	_ = x[BatteryTemperature-(71)]
-	_ = x[DeviceClass-(72)]
-	_ = x[DeviceGridRelay-(73)]
-	_ = x[DeviceName-(74)]
-	_ = x[DeviceStatus-(75)]
-	_ = x[DeviceTemperature-(76)]
-	_ = x[DeviceType-(77)]
-	_ = x[SoftwareVersion-(78)]
+	_ = x[ActivePowerMaxWarning-(2)]
+	_ = x[ActivePowerMaxFault-(3)]
+	_ = x[ActivePowerLimit-(4)]
+	_ = x[ActivePowerMinus-(5)]
+	_ = x[ActivePowerMinusL1-(6)]
+	_ = x[ActivePowerMinusL2-(7)]
+	_ = x[ActivePowerMinusL3-(8)]
+	_ = x[ActivePowerPlus-(9)]
+	_ = x[ActivePowerPlusL1-(10)]
+	_ = x[ActivePowerPlusL2-(11)]
+	_ = x[ActivePowerPlusL3-(12)]
+	_ = x[PvPower-(13)]
+	_ = x[GridPowerExport-(14)]
+	_ = x[GridPowerImport-(15)]
+	_ = x[ConsumptionPower-(16)]
+	_ = x[SelfConsumptionPower-(17)]
+	_ = x[ApparentPowerMinus-(18)]
+	_ = x[ApparentPowerMinusL1-(19)]
+	_ = x[ApparentPowerMinusL2-(20)]
+	_ = x[ApparentPowerMinusL3-(21)]
+	_ = x[ApparentPowerPlus-(22)]
+	_ = x[ApparentPowerPlusL1-(23)]
+	_ = x[ApparentPowerPlusL2-(24)]
+	_ = x[ApparentPowerPlusL3-(25)]
+	_ = x[ReactivePowerMinus-(26)]
+	_ = x[ReactivePowerMinusL1-(27)]
+	_ = x[ReactivePowerMinusL2-(28)]
+	_ = x[ReactivePowerMinusL3-(29)]
+	_ = x[ReactivePowerPlus-(30)]
+	_ = x[ReactivePowerPlusL1-(31)]
+	_ = x[ReactivePowerPlusL2-(32)]
+	_ = x[ReactivePowerPlusL3-(33)]
+	_ = x[PowerS1-(34)]
+	_ = x[PowerS2-(35)]
+	_ = x[PowerFactor-(36)]
+	_ = x[PowerFactorL1-(37)]
+	_ = x[PowerFactorL2-(38)]
+	_ = x[PowerFactorL3-(39)]
+	_ = x[ActiveEnergyMinus-(40)]
+	_ = x[ActiveEnergyMinusL1-(41)]
+	_ = x[ActiveEnergyMinusL2-(42)]
+	_ = x[ActiveEnergyMinusL3-(43)]
+	_ = x[ActiveEnergyPlus-(44)]
+	_ = x[ActiveEnergyPlusL1-(45)]
+	_ = x[ActiveEnergyPlusL2-(46)]
+	_ = x[ActiveEnergyPlusL3-(47)]
+	_ = x[ActiveEnergyPlusToday-(48)]
+	_ = x[PvEnergyTotal-(49)]
+	_ = x[GridEnergyExport-(50)]
+	_ = x[GridEnergyImport-(51)]
+	_ = x[ConsumptionEnergy-(52)]
+	_ = x[GridEnergyExportDay-(53)]
+	_ = x[GridEnergyImportDay-(54)]
+	_ = x[BatteryEnergyCharge-(55)]
+	_ = x[BatteryEnergyDischarge-(56)]
+	_ = x[SelfConsumption-(57)]
+	_ = x[ActiveEnergyMinusKWh-(58)]
+	_ = x[ActiveEnergyPlusKWh-(59)]
+	_ = x[ActiveEnergyPlusTodayKWh-(60)]
+	_ = x[PvEnergyTotalKWh-(61)]
+	_ = x[GridEnergyExportKWh-(62)]
+	_ = x[GridEnergyImportKWh-(63)]
+	_ = x[ConsumptionEnergyKWh-(64)]
+	_ = x[GridEnergyExportDayKWh-(65)]
+	_ = x[GridEnergyImportDayKWh-(66)]
+	_ = x[BatteryEnergyChargeKWh-(67)]
+	_ = x[BatteryEnergyDischargeKWh-(68)]
+	_ = x[SelfConsumptionKWh-(69)]
+	_ = x[ApparentEnergyMinus-(70)]
+	_ = x[ApparentEnergyMinusL1-(71)]
+	_ = x[ApparentEnergyMinusL2-(72)]
+	_ = x[ApparentEnergyMinusL3-(73)]
+	_ = x[ApparentEnergyPlus-(74)]
+	_ = x[ApparentEnergyPlusL1-(75)]
+	_ = x[ApparentEnergyPlusL2-(76)]
+	_ = x[ApparentEnergyPlusL3-(77)]
+	_ = x[ReactiveEnergyMinus-(78)]
+	_ = x[ReactiveEnergyMinusL1-(79)]
+	_ = x[ReactiveEnergyMinusL2-(80)]
+	_ = x[ReactiveEnergyMinusL3-(81)]
+	_ = x[ReactiveEnergyPlus-(82)]
+	_ = x[ReactiveEnergyPlusL1-(83)]
+	_ = x[ReactiveEnergyPlusL2-(84)]
+	_ = x[ReactiveEnergyPlusL3-(85)]
+	_ = x[CurrentL1-(86)]
+	_ = x[CurrentL2-(87)]
+	_ = x[CurrentL3-(88)]
+	_ = x[CurrentS1-(89)]
+	_ = x[CurrentS2-(90)]
+	_ = x[VoltageL1-(91)]
+	_ = x[VoltageL2-(92)]
+	_ = x[VoltageL3-(93)]
+	_ = x[VoltageL1L2-(94)]
+	_ = x[VoltageL2L3-(95)]
+	_ = x[VoltageL3L1-(96)]
+	_ = x[VoltageS1-(97)]
+	_ = x[VoltageS2-(98)]
+	_ = x[TimeFeed-(99)]
+	_ = x[TimeOperating-(100)]
+	_ = x[WaitTimeFeedIn-(101)]
+	_ = x[TimeGridFailure-(102)]
+	_ = x[UtilityFrequency-(103)]
+	_ = x[BatteryCharge-(104)]
+	_ = x[BatteryTemperature-(105)]
+	_ = x[BatteryChargeCycles-(106)]
+	_ = x[BatteryChargeAh-(107)]
+	_ = x[BatteryDischargeAh-(108)]
+	_ = x[BatteryVoltage-(109)]
+	_ = x[BatteryCurrent-(110)]
+	_ = x[DeviceClass-(111)]
+	_ = x[DeviceGridRelay-(112)]
+	_ = x[DeviceName-(113)]
+	_ = x[DeviceStatus-(114)]
+	_ = x[DeviceTemperature-(115)]
+	_ = x[DeviceType-(116)]
+	_ = x[SoftwareVersion-(117)]
 }
 
-var _ValueIDValues = []ValueID{ActivePowerMax, ActivePowerMinus, ActivePowerMinusL1, ActivePowerMinusL2, ActivePowerMinusL3, ActivePowerPlus, ActivePowerPlusL1, ActivePowerPlusL2, ActivePowerPlusL3, ApparentPowerMinus, ApparentPowerMinusL1, ApparentPowerMinusL2, ApparentPowerMinusL3, ApparentPowerPlus, ApparentPowerPlusL1, ApparentPowerPlusL2, ApparentPowerPlusL3, ReactivePowerMinus, ReactivePowerMinusL1, ReactivePowerMinusL2, ReactivePowerMinusL3, ReactivePowerPlus, ReactivePowerPlusL1, ReactivePowerPlusL2, ReactivePowerPlusL3, PowerS1, PowerS2, PowerFactor, PowerFactorL1, PowerFactorL2, PowerFactorL3, ActiveEnergyMinus, ActiveEnergyMinusL1, ActiveEnergyMinusL2, ActiveEnergyMinusL3, ActiveEnergyPlus, ActiveEnergyPlusL1, ActiveEnergyPlusL2, ActiveEnergyPlusL3, ActiveEnergyPlusToday, ApparentEnergyMinus, ApparentEnergyMinusL1, ApparentEnergyMinusL2, ApparentEnergyMinusL3, ApparentEnergyPlus, ApparentEnergyPlusL1, ApparentEnergyPlusL2, ApparentEnergyPlusL3, ReactiveEnergyMinus, ReactiveEnergyMinusL1, ReactiveEnergyMinusL2, ReactiveEnergyMinusL3, ReactiveEnergyPlus, ReactiveEnergyPlusL1, ReactiveEnergyPlusL2, ReactiveEnergyPlusL3, CurrentL1, CurrentL2, CurrentL3, CurrentS1, CurrentS2, VoltageL1, VoltageL2, VoltageL3, VoltageS1, VoltageS2, TimeFeed, TimeOperating, UtilityFrequency, BatteryCharge, BatteryTemperature, DeviceClass, DeviceGridRelay, DeviceName, DeviceStatus, DeviceTemperature, DeviceType, SoftwareVersion}
+var _ValueIDValues = []ValueID{ActivePowerMax, ActivePowerMaxWarning, ActivePowerMaxFault, ActivePowerLimit, ActivePowerMinus, ActivePowerMinusL1, ActivePowerMinusL2, ActivePowerMinusL3, ActivePowerPlus, ActivePowerPlusL1, ActivePowerPlusL2, ActivePowerPlusL3, PvPower, GridPowerExport, GridPowerImport, ConsumptionPower, SelfConsumptionPower, ApparentPowerMinus, ApparentPowerMinusL1, ApparentPowerMinusL2, ApparentPowerMinusL3, ApparentPowerPlus, ApparentPowerPlusL1, ApparentPowerPlusL2, ApparentPowerPlusL3, ReactivePowerMinus, ReactivePowerMinusL1, ReactivePowerMinusL2, ReactivePowerMinusL3, ReactivePowerPlus, ReactivePowerPlusL1, ReactivePowerPlusL2, ReactivePowerPlusL3, PowerS1, PowerS2, PowerFactor, PowerFactorL1, PowerFactorL2, PowerFactorL3, ActiveEnergyMinus, ActiveEnergyMinusL1, ActiveEnergyMinusL2, ActiveEnergyMinusL3, ActiveEnergyPlus, ActiveEnergyPlusL1, ActiveEnergyPlusL2, ActiveEnergyPlusL3, ActiveEnergyPlusToday, PvEnergyTotal, GridEnergyExport, GridEnergyImport, ConsumptionEnergy, GridEnergyExportDay, GridEnergyImportDay, BatteryEnergyCharge, BatteryEnergyDischarge, SelfConsumption, ActiveEnergyMinusKWh, ActiveEnergyPlusKWh, ActiveEnergyPlusTodayKWh, PvEnergyTotalKWh, GridEnergyExportKWh, GridEnergyImportKWh, ConsumptionEnergyKWh, GridEnergyExportDayKWh, GridEnergyImportDayKWh, BatteryEnergyChargeKWh, BatteryEnergyDischargeKWh, SelfConsumptionKWh, ApparentEnergyMinus, ApparentEnergyMinusL1, ApparentEnergyMinusL2, ApparentEnergyMinusL3, ApparentEnergyPlus, ApparentEnergyPlusL1, ApparentEnergyPlusL2, ApparentEnergyPlusL3, ReactiveEnergyMinus, ReactiveEnergyMinusL1, ReactiveEnergyMinusL2, ReactiveEnergyMinusL3, ReactiveEnergyPlus, ReactiveEnergyPlusL1, ReactiveEnergyPlusL2, ReactiveEnergyPlusL3, CurrentL1, CurrentL2, CurrentL3, CurrentS1, CurrentS2, VoltageL1, VoltageL2, VoltageL3, VoltageL1L2, VoltageL2L3, VoltageL3L1, VoltageS1, VoltageS2, TimeFeed, TimeOperating, WaitTimeFeedIn, TimeGridFailure, UtilityFrequency, BatteryCharge, BatteryTemperature, BatteryChargeCycles, BatteryChargeAh, BatteryDischargeAh, BatteryVoltage, BatteryCurrent, DeviceClass, DeviceGridRelay, DeviceName, DeviceStatus, DeviceTemperature, DeviceType, SoftwareVersion}
 
 var _ValueIDNameToValueMap = map[string]ValueID{
 	_ValueIDName[0:14]:           ActivePowerMax,
 	_ValueIDLowerName[0:14]:      ActivePowerMax,
-	_ValueIDName[14:30]:          ActivePowerMinus,
-	_ValueIDLowerName[14:30]:     ActivePowerMinus,
-	_ValueIDName[30:48]:          ActivePowerMinusL1,
-	_ValueIDLowerName[30:48]:     ActivePowerMinusL1,
-	_ValueIDName[48:66]:          ActivePowerMinusL2,
-	_ValueIDLowerName[48:66]:     ActivePowerMinusL2,
-	_ValueIDName[66:84]:          ActivePowerMinusL3,
-	_ValueIDLowerName[66:84]:     ActivePowerMinusL3,
-	_ValueIDName[84:99]:          ActivePowerPlus,
-	_ValueIDLowerName[84:99]:     ActivePowerPlus,
-	_ValueIDName[99:116]:         ActivePowerPlusL1,
-	_ValueIDLowerName[99:116]:    ActivePowerPlusL1,
-	_ValueIDName[116:133]:        ActivePowerPlusL2,
-	_ValueIDLowerName[116:133]:   ActivePowerPlusL2,
-	_ValueIDName[133:150]:        ActivePowerPlusL3,
-	_ValueIDLowerName[133:150]:   ActivePowerPlusL3,
-	_ValueIDName[150:168]:        ApparentPowerMinus,
-	_ValueIDLowerName[150:168]:   ApparentPowerMinus,
-	_ValueIDName[168:188]:        ApparentPowerMinusL1,
-	_ValueIDLowerName[168:188]:   ApparentPowerMinusL1,
-	_ValueIDName[188:208]:        ApparentPowerMinusL2,
-	_ValueIDLowerName[188:208]:   ApparentPowerMinusL2,
-	_ValueIDName[208:228]:        ApparentPowerMinusL3,
-	_ValueIDLowerName[208:228]:   ApparentPowerMinusL3,
-	_ValueIDName[228:245]:        ApparentPowerPlus,
-	_ValueIDLowerName[228:245]:   ApparentPowerPlus,
-	_ValueIDName[245:264]:        ApparentPowerPlusL1,
-	_ValueIDLowerName[245:264]:   ApparentPowerPlusL1,
-	_ValueIDName[264:283]:        ApparentPowerPlusL2,
-	_ValueIDLowerName[264:283]:   ApparentPowerPlusL2,
-	_ValueIDName[283:302]:        ApparentPowerPlusL3,
-	_ValueIDLowerName[283:302]:   ApparentPowerPlusL3,
-	_ValueIDName[302:320]:        ReactivePowerMinus,
-	_ValueIDLowerName[302:320]:   ReactivePowerMinus,
-	_ValueIDName[320:340]:        ReactivePowerMinusL1,
-	_ValueIDLowerName[320:340]:   ReactivePowerMinusL1,
-	_ValueIDName[340:360]:        ReactivePowerMinusL2,
-	_ValueIDLowerName[340:360]:   ReactivePowerMinusL2,
-	_ValueIDName[360:380]:        ReactivePowerMinusL3,
-	_ValueIDLowerName[360:380]:   ReactivePowerMinusL3,
-	_ValueIDName[380:397]:        ReactivePowerPlus,
-	_ValueIDLowerName[380:397]:   ReactivePowerPlus,
-	_ValueIDName[397:416]:        ReactivePowerPlusL1,
-	_ValueIDLowerName[397:416]:   ReactivePowerPlusL1,
-	_ValueIDName[416:435]:        ReactivePowerPlusL2,
-	_ValueIDLowerName[416:435]:   ReactivePowerPlusL2,
-	_ValueIDName[435:454]:        ReactivePowerPlusL3,
-	_ValueIDLowerName[435:454]:   ReactivePowerPlusL3,
-	_ValueIDName[454:461]:        PowerS1,
-	_ValueIDLowerName[454:461]:   PowerS1,
-	_ValueIDName[461:468]:        PowerS2,
-	_ValueIDLowerName[461:468]:   PowerS2,
-	_ValueIDName[468:479]:        PowerFactor,
-	_ValueIDLowerName[468:479]:   PowerFactor,
-	_ValueIDName[479:492]:        PowerFactorL1,
-	_ValueIDLowerName[479:492]:   PowerFactorL1,
-	_ValueIDName[492:505]:        PowerFactorL2,
-	_ValueIDLowerName[492:505]:   PowerFactorL2,
-	_ValueIDName[505:518]:        PowerFactorL3,
-	_ValueIDLowerName[505:518]:   PowerFactorL3,
-	_ValueIDName[518:535]:        ActiveEnergyMinus,
-	_ValueIDLowerName[518:535]:   ActiveEnergyMinus,
-	_ValueIDName[535:554]:        ActiveEnergyMinusL1,
-	_ValueIDLowerName[535:554]:   ActiveEnergyMinusL1,
-	_ValueIDName[554:573]:        ActiveEnergyMinusL2,
-	_ValueIDLowerName[554:573]:   ActiveEnergyMinusL2,
-	_ValueIDName[573:592]:        ActiveEnergyMinusL3,
-	_ValueIDLowerName[573:592]:   ActiveEnergyMinusL3,
-	_ValueIDName[592:608]:        ActiveEnergyPlus,
-	_ValueIDLowerName[592:608]:   ActiveEnergyPlus,
-	_ValueIDName[608:626]:        ActiveEnergyPlusL1,
-	_ValueIDLowerName[608:626]:   ActiveEnergyPlusL1,
-	_ValueIDName[626:644]:        ActiveEnergyPlusL2,
-	_ValueIDLowerName[626:644]:   ActiveEnergyPlusL2,
-	_ValueIDName[644:662]:        ActiveEnergyPlusL3,
-	_ValueIDLowerName[644:662]:   ActiveEnergyPlusL3,
-	_ValueIDName[662:683]:        ActiveEnergyPlusToday,
-	_ValueIDLowerName[662:683]:   ActiveEnergyPlusToday,
-	_ValueIDName[683:702]:        ApparentEnergyMinus,
-	_ValueIDLowerName[683:702]:   ApparentEnergyMinus,
-	_ValueIDName[702:723]:        ApparentEnergyMinusL1,
-	_ValueIDLowerName[702:723]:   ApparentEnergyMinusL1,
-	_ValueIDName[723:744]:        ApparentEnergyMinusL2,
-	_ValueIDLowerName[723:744]:   ApparentEnergyMinusL2,
-	_ValueIDName[744:765]:        ApparentEnergyMinusL3,
-	_ValueIDLowerName[744:765]:   ApparentEnergyMinusL3,
-	_ValueIDName[765:783]:        ApparentEnergyPlus,
-	_ValueIDLowerName[765:783]:   ApparentEnergyPlus,
-	_ValueIDName[783:803]:        ApparentEnergyPlusL1,
-	_ValueIDLowerName[783:803]:   ApparentEnergyPlusL1,
-	_ValueIDName[803:823]:        ApparentEnergyPlusL2,
-	_ValueIDLowerName[803:823]:   ApparentEnergyPlusL2,
-	_ValueIDName[823:843]:        ApparentEnergyPlusL3,
-	_ValueIDLowerName[823:843]:   ApparentEnergyPlusL3,
-	_ValueIDName[843:862]:        ReactiveEnergyMinus,
-	_ValueIDLowerName[843:862]:   ReactiveEnergyMinus,
-	_ValueIDName[862:883]:        ReactiveEnergyMinusL1,
-	_ValueIDLowerName[862:883]:   ReactiveEnergyMinusL1,
-	_ValueIDName[883:904]:        ReactiveEnergyMinusL2,
-	_ValueIDLowerName[883:904]:   ReactiveEnergyMinusL2,
-	_ValueIDName[904:925]:        ReactiveEnergyMinusL3,
-	_ValueIDLowerName[904:925]:   ReactiveEnergyMinusL3,
-	_ValueIDName[925:943]:        ReactiveEnergyPlus,
-	_ValueIDLowerName[925:943]:   ReactiveEnergyPlus,
-	_ValueIDName[943:963]:        ReactiveEnergyPlusL1,
-	_ValueIDLowerName[943:963]:   ReactiveEnergyPlusL1,
-	_ValueIDName[963:983]:        ReactiveEnergyPlusL2,
-	_ValueIDLowerName[963:983]:   ReactiveEnergyPlusL2,
-	_ValueIDName[983:1003]:       ReactiveEnergyPlusL3,
-	_ValueIDLowerName[983:1003]:  ReactiveEnergyPlusL3,
-	_ValueIDName[1003:1012]:      CurrentL1,
-	_ValueIDLowerName[1003:1012]: CurrentL1,
-	_ValueIDName[1012:1021]:      CurrentL2,
-	_ValueIDLowerName[1012:1021]: CurrentL2,
-	_ValueIDName[1021:1030]:      CurrentL3,
-	_ValueIDLowerName[1021:1030]: CurrentL3,
-	_ValueIDName[1030:1039]:      CurrentS1,
-	_ValueIDLowerName[1030:1039]: CurrentS1,
-	_ValueIDName[1039:1048]:      CurrentS2,
-	_ValueIDLowerName[1039:1048]: CurrentS2,
-	_ValueIDName[1048:1057]:      VoltageL1,
-	_ValueIDLowerName[1048:1057]: VoltageL1,
-	_ValueIDName[1057:1066]:      VoltageL2,
-	_ValueIDLowerName[1057:1066]: VoltageL2,
-	_ValueIDName[1066:1075]:      VoltageL3,
-	_ValueIDLowerName[1066:1075]: VoltageL3,
-	_ValueIDName[1075:1084]:      VoltageS1,
-	_ValueIDLowerName[1075:1084]: VoltageS1,
-	_ValueIDName[1084:1093]:      VoltageS2,
-	_ValueIDLowerName[1084:1093]: VoltageS2,
-	_ValueIDName[1093:1101]:      TimeFeed,
-	_ValueIDLowerName[1093:1101]: TimeFeed,
-	_ValueIDName[1101:1114]:      TimeOperating,
-	_ValueIDLowerName[1101:1114]: TimeOperating,
-	_ValueIDName[1114:1130]:      UtilityFrequency,
-	_ValueIDLowerName[1114:1130]: UtilityFrequency,
-	_ValueIDName[1130:1143]:      BatteryCharge,
-	_ValueIDLowerName[1130:1143]: BatteryCharge,
-	_ValueIDName[1143:1161]:      BatteryTemperature,
-	_ValueIDLowerName[1143:1161]: BatteryTemperature,
-	_ValueIDName[1161:1172]:      DeviceClass,
-	_ValueIDLowerName[1161:1172]: DeviceClass,
-	_ValueIDName[1172:1187]:      DeviceGridRelay,
-	_ValueIDLowerName[1172:1187]: DeviceGridRelay,
-	_ValueIDName[1187:1197]:      DeviceName,
-	_ValueIDLowerName[1187:1197]: DeviceName,
-	_ValueIDName[1197:1209]:      DeviceStatus,
-	_ValueIDLowerName[1197:1209]: DeviceStatus,
-	_ValueIDName[1209:1226]:      DeviceTemperature,
-	_ValueIDLowerName[1209:1226]: DeviceTemperature,
-	_ValueIDName[1226:1236]:      DeviceType,
-	_ValueIDLowerName[1226:1236]: DeviceType,
-	_ValueIDName[1236:1251]:      SoftwareVersion,
-	_ValueIDLowerName[1236:1251]: SoftwareVersion,
+	_ValueIDName[14:35]:          ActivePowerMaxWarning,
+	_ValueIDLowerName[14:35]:     ActivePowerMaxWarning,
+	_ValueIDName[35:54]:          ActivePowerMaxFault,
+	_ValueIDLowerName[35:54]:     ActivePowerMaxFault,
+	_ValueIDName[54:70]:          ActivePowerLimit,
+	_ValueIDLowerName[54:70]:     ActivePowerLimit,
+	_ValueIDName[70:86]:          ActivePowerMinus,
+	_ValueIDLowerName[70:86]:     ActivePowerMinus,
+	_ValueIDName[86:104]:         ActivePowerMinusL1,
+	_ValueIDLowerName[86:104]:    ActivePowerMinusL1,
+	_ValueIDName[104:122]:        ActivePowerMinusL2,
+	_ValueIDLowerName[104:122]:   ActivePowerMinusL2,
+	_ValueIDName[122:140]:        ActivePowerMinusL3,
+	_ValueIDLowerName[122:140]:   ActivePowerMinusL3,
+	_ValueIDName[140:155]:        ActivePowerPlus,
+	_ValueIDLowerName[140:155]:   ActivePowerPlus,
+	_ValueIDName[155:172]:        ActivePowerPlusL1,
+	_ValueIDLowerName[155:172]:   ActivePowerPlusL1,
+	_ValueIDName[172:189]:        ActivePowerPlusL2,
+	_ValueIDLowerName[172:189]:   ActivePowerPlusL2,
+	_ValueIDName[189:206]:        ActivePowerPlusL3,
+	_ValueIDLowerName[189:206]:   ActivePowerPlusL3,
+	_ValueIDName[206:213]:        PvPower,
+	_ValueIDLowerName[206:213]:   PvPower,
+	_ValueIDName[213:228]:        GridPowerExport,
+	_ValueIDLowerName[213:228]:   GridPowerExport,
+	_ValueIDName[228:243]:        GridPowerImport,
+	_ValueIDLowerName[228:243]:   GridPowerImport,
+	_ValueIDName[243:259]:        ConsumptionPower,
+	_ValueIDLowerName[243:259]:   ConsumptionPower,
+	_ValueIDName[259:279]:        SelfConsumptionPower,
+	_ValueIDLowerName[259:279]:   SelfConsumptionPower,
+	_ValueIDName[279:297]:        ApparentPowerMinus,
+	_ValueIDLowerName[279:297]:   ApparentPowerMinus,
+	_ValueIDName[297:317]:        ApparentPowerMinusL1,
+	_ValueIDLowerName[297:317]:   ApparentPowerMinusL1,
+	_ValueIDName[317:337]:        ApparentPowerMinusL2,
+	_ValueIDLowerName[317:337]:   ApparentPowerMinusL2,
+	_ValueIDName[337:357]:        ApparentPowerMinusL3,
+	_ValueIDLowerName[337:357]:   ApparentPowerMinusL3,
+	_ValueIDName[357:374]:        ApparentPowerPlus,
+	_ValueIDLowerName[357:374]:   ApparentPowerPlus,
+	_ValueIDName[374:393]:        ApparentPowerPlusL1,
+	_ValueIDLowerName[374:393]:   ApparentPowerPlusL1,
+	_ValueIDName[393:412]:        ApparentPowerPlusL2,
+	_ValueIDLowerName[393:412]:   ApparentPowerPlusL2,
+	_ValueIDName[412:431]:        ApparentPowerPlusL3,
+	_ValueIDLowerName[412:431]:   ApparentPowerPlusL3,
+	_ValueIDName[431:449]:        ReactivePowerMinus,
+	_ValueIDLowerName[431:449]:   ReactivePowerMinus,
+	_ValueIDName[449:469]:        ReactivePowerMinusL1,
+	_ValueIDLowerName[449:469]:   ReactivePowerMinusL1,
+	_ValueIDName[469:489]:        ReactivePowerMinusL2,
+	_ValueIDLowerName[469:489]:   ReactivePowerMinusL2,
+	_ValueIDName[489:509]:        ReactivePowerMinusL3,
+	_ValueIDLowerName[489:509]:   ReactivePowerMinusL3,
+	_ValueIDName[509:526]:        ReactivePowerPlus,
+	_ValueIDLowerName[509:526]:   ReactivePowerPlus,
+	_ValueIDName[526:545]:        ReactivePowerPlusL1,
+	_ValueIDLowerName[526:545]:   ReactivePowerPlusL1,
+	_ValueIDName[545:564]:        ReactivePowerPlusL2,
+	_ValueIDLowerName[545:564]:   ReactivePowerPlusL2,
+	_ValueIDName[564:583]:        ReactivePowerPlusL3,
+	_ValueIDLowerName[564:583]:   ReactivePowerPlusL3,
+	_ValueIDName[583:590]:        PowerS1,
+	_ValueIDLowerName[583:590]:   PowerS1,
+	_ValueIDName[590:597]:        PowerS2,
+	_ValueIDLowerName[590:597]:   PowerS2,
+	_ValueIDName[597:608]:        PowerFactor,
+	_ValueIDLowerName[597:608]:   PowerFactor,
+	_ValueIDName[608:621]:        PowerFactorL1,
+	_ValueIDLowerName[608:621]:   PowerFactorL1,
+	_ValueIDName[621:634]:        PowerFactorL2,
+	_ValueIDLowerName[621:634]:   PowerFactorL2,
+	_ValueIDName[634:647]:        PowerFactorL3,
+	_ValueIDLowerName[634:647]:   PowerFactorL3,
+	_ValueIDName[647:664]:        ActiveEnergyMinus,
+	_ValueIDLowerName[647:664]:   ActiveEnergyMinus,
+	_ValueIDName[664:683]:        ActiveEnergyMinusL1,
+	_ValueIDLowerName[664:683]:   ActiveEnergyMinusL1,
+	_ValueIDName[683:702]:        ActiveEnergyMinusL2,
+	_ValueIDLowerName[683:702]:   ActiveEnergyMinusL2,
+	_ValueIDName[702:721]:        ActiveEnergyMinusL3,
+	_ValueIDLowerName[702:721]:   ActiveEnergyMinusL3,
+	_ValueIDName[721:737]:        ActiveEnergyPlus,
+	_ValueIDLowerName[721:737]:   ActiveEnergyPlus,
+	_ValueIDName[737:755]:        ActiveEnergyPlusL1,
+	_ValueIDLowerName[737:755]:   ActiveEnergyPlusL1,
+	_ValueIDName[755:773]:        ActiveEnergyPlusL2,
+	_ValueIDLowerName[755:773]:   ActiveEnergyPlusL2,
+	_ValueIDName[773:791]:        ActiveEnergyPlusL3,
+	_ValueIDLowerName[773:791]:   ActiveEnergyPlusL3,
+	_ValueIDName[791:812]:        ActiveEnergyPlusToday,
+	_ValueIDLowerName[791:812]:   ActiveEnergyPlusToday,
+	_ValueIDName[812:825]:        PvEnergyTotal,
+	_ValueIDLowerName[812:825]:   PvEnergyTotal,
+	_ValueIDName[825:841]:        GridEnergyExport,
+	_ValueIDLowerName[825:841]:   GridEnergyExport,
+	_ValueIDName[841:857]:        GridEnergyImport,
+	_ValueIDLowerName[841:857]:   GridEnergyImport,
+	_ValueIDName[857:874]:        ConsumptionEnergy,
+	_ValueIDLowerName[857:874]:   ConsumptionEnergy,
+	_ValueIDName[874:893]:        GridEnergyExportDay,
+	_ValueIDLowerName[874:893]:   GridEnergyExportDay,
+	_ValueIDName[893:912]:        GridEnergyImportDay,
+	_ValueIDLowerName[893:912]:   GridEnergyImportDay,
+	_ValueIDName[912:931]:        BatteryEnergyCharge,
+	_ValueIDLowerName[912:931]:   BatteryEnergyCharge,
+	_ValueIDName[931:953]:        BatteryEnergyDischarge,
+	_ValueIDLowerName[931:953]:   BatteryEnergyDischarge,
+	_ValueIDName[953:968]:        SelfConsumption,
+	_ValueIDLowerName[953:968]:   SelfConsumption,
+	_ValueIDName[968:988]:        ActiveEnergyMinusKWh,
+	_ValueIDLowerName[968:988]:   ActiveEnergyMinusKWh,
+	_ValueIDName[988:1007]:       ActiveEnergyPlusKWh,
+	_ValueIDLowerName[988:1007]:  ActiveEnergyPlusKWh,
+	_ValueIDName[1007:1031]:      ActiveEnergyPlusTodayKWh,
+	_ValueIDLowerName[1007:1031]: ActiveEnergyPlusTodayKWh,
+	_ValueIDName[1031:1047]:      PvEnergyTotalKWh,
+	_ValueIDLowerName[1031:1047]: PvEnergyTotalKWh,
+	_ValueIDName[1047:1066]:      GridEnergyExportKWh,
+	_ValueIDLowerName[1047:1066]: GridEnergyExportKWh,
+	_ValueIDName[1066:1085]:      GridEnergyImportKWh,
+	_ValueIDLowerName[1066:1085]: GridEnergyImportKWh,
+	_ValueIDName[1085:1105]:      ConsumptionEnergyKWh,
+	_ValueIDLowerName[1085:1105]: ConsumptionEnergyKWh,
+	_ValueIDName[1105:1127]:      GridEnergyExportDayKWh,
+	_ValueIDLowerName[1105:1127]: GridEnergyExportDayKWh,
+	_ValueIDName[1127:1149]:      GridEnergyImportDayKWh,
+	_ValueIDLowerName[1127:1149]: GridEnergyImportDayKWh,
+	_ValueIDName[1149:1171]:      BatteryEnergyChargeKWh,
+	_ValueIDLowerName[1149:1171]: BatteryEnergyChargeKWh,
+	_ValueIDName[1171:1196]:      BatteryEnergyDischargeKWh,
+	_ValueIDLowerName[1171:1196]: BatteryEnergyDischargeKWh,
+	_ValueIDName[1196:1214]:      SelfConsumptionKWh,
+	_ValueIDLowerName[1196:1214]: SelfConsumptionKWh,
+	_ValueIDName[1214:1233]:      ApparentEnergyMinus,
+	_ValueIDLowerName[1214:1233]: ApparentEnergyMinus,
+	_ValueIDName[1233:1254]:      ApparentEnergyMinusL1,
+	_ValueIDLowerName[1233:1254]: ApparentEnergyMinusL1,
+	_ValueIDName[1254:1275]:      ApparentEnergyMinusL2,
+	_ValueIDLowerName[1254:1275]: ApparentEnergyMinusL2,
+	_ValueIDName[1275:1296]:      ApparentEnergyMinusL3,
+	_ValueIDLowerName[1275:1296]: ApparentEnergyMinusL3,
+	_ValueIDName[1296:1314]:      ApparentEnergyPlus,
+	_ValueIDLowerName[1296:1314]: ApparentEnergyPlus,
+	_ValueIDName[1314:1334]:      ApparentEnergyPlusL1,
+	_ValueIDLowerName[1314:1334]: ApparentEnergyPlusL1,
+	_ValueIDName[1334:1354]:      ApparentEnergyPlusL2,
+	_ValueIDLowerName[1334:1354]: ApparentEnergyPlusL2,
+	_ValueIDName[1354:1374]:      ApparentEnergyPlusL3,
+	_ValueIDLowerName[1354:1374]: ApparentEnergyPlusL3,
+	_ValueIDName[1374:1393]:      ReactiveEnergyMinus,
+	_ValueIDLowerName[1374:1393]: ReactiveEnergyMinus,
+	_ValueIDName[1393:1414]:      ReactiveEnergyMinusL1,
+	_ValueIDLowerName[1393:1414]: ReactiveEnergyMinusL1,
+	_ValueIDName[1414:1435]:      ReactiveEnergyMinusL2,
+	_ValueIDLowerName[1414:1435]: ReactiveEnergyMinusL2,
+	_ValueIDName[1435:1456]:      ReactiveEnergyMinusL3,
+	_ValueIDLowerName[1435:1456]: ReactiveEnergyMinusL3,
+	_ValueIDName[1456:1474]:      ReactiveEnergyPlus,
+	_ValueIDLowerName[1456:1474]: ReactiveEnergyPlus,
+	_ValueIDName[1474:1494]:      ReactiveEnergyPlusL1,
+	_ValueIDLowerName[1474:1494]: ReactiveEnergyPlusL1,
+	_ValueIDName[1494:1514]:      ReactiveEnergyPlusL2,
+	_ValueIDLowerName[1494:1514]: ReactiveEnergyPlusL2,
+	_ValueIDName[1514:1534]:      ReactiveEnergyPlusL3,
+	_ValueIDLowerName[1514:1534]: ReactiveEnergyPlusL3,
+	_ValueIDName[1534:1543]:      CurrentL1,
+	_ValueIDLowerName[1534:1543]: CurrentL1,
+	_ValueIDName[1543:1552]:      CurrentL2,
+	_ValueIDLowerName[1543:1552]: CurrentL2,
+	_ValueIDName[1552:1561]:      CurrentL3,
+	_ValueIDLowerName[1552:1561]: CurrentL3,
+	_ValueIDName[1561:1570]:      CurrentS1,
+	_ValueIDLowerName[1561:1570]: CurrentS1,
+	_ValueIDName[1570:1579]:      CurrentS2,
+	_ValueIDLowerName[1570:1579]: CurrentS2,
+	_ValueIDName[1579:1588]:      VoltageL1,
+	_ValueIDLowerName[1579:1588]: VoltageL1,
+	_ValueIDName[1588:1597]:      VoltageL2,
+	_ValueIDLowerName[1588:1597]: VoltageL2,
+	_ValueIDName[1597:1606]:      VoltageL3,
+	_ValueIDLowerName[1597:1606]: VoltageL3,
+	_ValueIDName[1606:1617]:      VoltageL1L2,
+	_ValueIDLowerName[1606:1617]: VoltageL1L2,
+	_ValueIDName[1617:1628]:      VoltageL2L3,
+	_ValueIDLowerName[1617:1628]: VoltageL2L3,
+	_ValueIDName[1628:1639]:      VoltageL3L1,
+	_ValueIDLowerName[1628:1639]: VoltageL3L1,
+	_ValueIDName[1639:1648]:      VoltageS1,
+	_ValueIDLowerName[1639:1648]: VoltageS1,
+	_ValueIDName[1648:1657]:      VoltageS2,
+	_ValueIDLowerName[1648:1657]: VoltageS2,
+	_ValueIDName[1657:1665]:      TimeFeed,
+	_ValueIDLowerName[1657:1665]: TimeFeed,
+	_ValueIDName[1665:1678]:      TimeOperating,
+	_ValueIDLowerName[1665:1678]: TimeOperating,
+	_ValueIDName[1678:1692]:      WaitTimeFeedIn,
+	_ValueIDLowerName[1678:1692]: WaitTimeFeedIn,
+	_ValueIDName[1692:1707]:      TimeGridFailure,
+	_ValueIDLowerName[1692:1707]: TimeGridFailure,
+	_ValueIDName[1707:1723]:      UtilityFrequency,
+	_ValueIDLowerName[1707:1723]: UtilityFrequency,
+	_ValueIDName[1723:1736]:      BatteryCharge,
+	_ValueIDLowerName[1723:1736]: BatteryCharge,
+	_ValueIDName[1736:1754]:      BatteryTemperature,
+	_ValueIDLowerName[1736:1754]: BatteryTemperature,
+	_ValueIDName[1754:1773]:      BatteryChargeCycles,
+	_ValueIDLowerName[1754:1773]: BatteryChargeCycles,
+	_ValueIDName[1773:1788]:      BatteryChargeAh,
+	_ValueIDLowerName[1773:1788]: BatteryChargeAh,
+	_ValueIDName[1788:1806]:      BatteryDischargeAh,
+	_ValueIDLowerName[1788:1806]: BatteryDischargeAh,
+	_ValueIDName[1806:1820]:      BatteryVoltage,
+	_ValueIDLowerName[1806:1820]: BatteryVoltage,
+	_ValueIDName[1820:1834]:      BatteryCurrent,
+	_ValueIDLowerName[1820:1834]: BatteryCurrent,
+	_ValueIDName[1834:1845]:      DeviceClass,
+	_ValueIDLowerName[1834:1845]: DeviceClass,
+	_ValueIDName[1845:1860]:      DeviceGridRelay,
+	_ValueIDLowerName[1845:1860]: DeviceGridRelay,
+	_ValueIDName[1860:1870]:      DeviceName,
+	_ValueIDLowerName[1860:1870]: DeviceName,
+	_ValueIDName[1870:1882]:      DeviceStatus,
+	_ValueIDLowerName[1870:1882]: DeviceStatus,
+	_ValueIDName[1882:1899]:      DeviceTemperature,
+	_ValueIDLowerName[1882:1899]: DeviceTemperature,
+	_ValueIDName[1899:1909]:      DeviceType,
+	_ValueIDLowerName[1899:1909]: DeviceType,
+	_ValueIDName[1909:1924]:      SoftwareVersion,
+	_ValueIDLowerName[1909:1924]: SoftwareVersion,
 }
 
 var _ValueIDNames = []string{
 	_ValueIDName[0:14],
-	_ValueIDName[14:30],
-	_ValueIDName[30:48],
-	_ValueIDName[48:66],
-	_ValueIDName[66:84],
-	_ValueIDName[84:99],
-	_ValueIDName[99:116],
-	_ValueIDName[116:133],
-	_ValueIDName[133:150],
-	_ValueIDName[150:168],
-	_ValueIDName[168:188],
-	_ValueIDName[188:208],
-	_ValueIDName[208:228],
-	_ValueIDName[228:245],
-	_ValueIDName[245:264],
-	_ValueIDName[264:283],
-	_ValueIDName[283:302],
-	_ValueIDName[302:320],
-	_ValueIDName[320:340],
-	_ValueIDName[340:360],
-	_ValueIDName[360:380],
-	_ValueIDName[380:397],
-	_ValueIDName[397:416],
-	_ValueIDName[416:435],
-	_ValueIDName[435:454],
-	_ValueIDName[454:461],
-	_ValueIDName[461:468],
-	_ValueIDName[468:479],
-	_ValueIDName[479:492],
-	_ValueIDName[492:505],
-	_ValueIDName[505:518],
-	_ValueIDName[518:535],
-	_ValueIDName[535:554],
-	_ValueIDName[554:573],
-	_ValueIDName[573:592],
-	_ValueIDName[592:608],
-	_ValueIDName[608:626],
-	_ValueIDName[626:644],
-	_ValueIDName[644:662],
-	_ValueIDName[662:683],
+	_ValueIDName[14:35],
+	_ValueIDName[35:54],
+	_ValueIDName[54:70],
+	_ValueIDName[70:86],
+	_ValueIDName[86:104],
+	_ValueIDName[104:122],
+	_ValueIDName[122:140],
+	_ValueIDName[140:155],
+	_ValueIDName[155:172],
+	_ValueIDName[172:189],
+	_ValueIDName[189:206],
+	_ValueIDName[206:213],
+	_ValueIDName[213:228],
+	_ValueIDName[228:243],
+	_ValueIDName[243:259],
+	_ValueIDName[259:279],
+	_ValueIDName[279:297],
+	_ValueIDName[297:317],
+	_ValueIDName[317:337],
+	_ValueIDName[337:357],
+	_ValueIDName[357:374],
+	_ValueIDName[374:393],
+	_ValueIDName[393:412],
+	_ValueIDName[412:431],
+	_ValueIDName[431:449],
+	_ValueIDName[449:469],
+	_ValueIDName[469:489],
+	_ValueIDName[489:509],
+	_ValueIDName[509:526],
+	_ValueIDName[526:545],
+	_ValueIDName[545:564],
+	_ValueIDName[564:583],
+	_ValueIDName[583:590],
+	_ValueIDName[590:597],
+	_ValueIDName[597:608],
+	_ValueIDName[608:621],
+	_ValueIDName[621:634],
+	_ValueIDName[634:647],
+	_ValueIDName[647:664],
+	_ValueIDName[664:683],
 	_ValueIDName[683:702],
-	_ValueIDName[702:723],
-	_ValueIDName[723:744],
-	_ValueIDName[744:765],
-	_ValueIDName[765:783],
-	_ValueIDName[783:803],
-	_ValueIDName[803:823],
-	_ValueIDName[823:843],
-	_ValueIDName[843:862],
-	_ValueIDName[862:883],
-	_ValueIDName[883:904],
-	_ValueIDName[904:925],
-	_ValueIDName[925:943],
-	_ValueIDName[943:963],
-	_ValueIDName[963:983],
-	_ValueIDName[983:1003],
-	_ValueIDName[1003:1012],
-	_ValueIDName[1012:1021],
-	_ValueIDName[1021:1030],
-	_ValueIDName[1030:1039],
-	_ValueIDName[1039:1048],
-	_ValueIDName[1048:1057],
-	_ValueIDName[1057:1066],
-	_ValueIDName[1066:1075],
-	_ValueIDName[1075:1084],
-	_ValueIDName[1084:1093],
-	_ValueIDName[1093:1101],
-	_ValueIDName[1101:1114],
-	_ValueIDName[1114:1130],
-	_ValueIDName[1130:1143],
-	_ValueIDName[1143:1161],
-	_ValueIDName[1161:1172],
-	_ValueIDName[1172:1187],
-	_ValueIDName[1187:1197],
-	_ValueIDName[1197:1209],
-	_ValueIDName[1209:1226],
-	_ValueIDName[1226:1236],
-	_ValueIDName[1236:1251],
+	_ValueIDName[702:721],
+	_ValueIDName[721:737],
+	_ValueIDName[737:755],
+	_ValueIDName[755:773],
+	_ValueIDName[773:791],
+	_ValueIDName[791:812],
+	_ValueIDName[812:825],
+	_ValueIDName[825:841],
+	_ValueIDName[841:857],
+	_ValueIDName[857:874],
+	_ValueIDName[874:893],
+	_ValueIDName[893:912],
+	_ValueIDName[912:931],
+	_ValueIDName[931:953],
+	_ValueIDName[953:968],
+	_ValueIDName[968:988],
+	_ValueIDName[988:1007],
+	_ValueIDName[1007:1031],
+	_ValueIDName[1031:1047],
+	_ValueIDName[1047:1066],
+	_ValueIDName[1066:1085],
+	_ValueIDName[1085:1105],
+	_ValueIDName[1105:1127],
+	_ValueIDName[1127:1149],
+	_ValueIDName[1149:1171],
+	_ValueIDName[1171:1196],
+	_ValueIDName[1196:1214],
+	_ValueIDName[1214:1233],
+	_ValueIDName[1233:1254],
+	_ValueIDName[1254:1275],
+	_ValueIDName[1275:1296],
+	_ValueIDName[1296:1314],
+	_ValueIDName[1314:1334],
+	_ValueIDName[1334:1354],
+	_ValueIDName[1354:1374],
+	_ValueIDName[1374:1393],
+	_ValueIDName[1393:1414],
+	_ValueIDName[1414:1435],
+	_ValueIDName[1435:1456],
+	_ValueIDName[1456:1474],
+	_ValueIDName[1474:1494],
+	_ValueIDName[1494:1514],
+	_ValueIDName[1514:1534],
+	_ValueIDName[1534:1543],
+	_ValueIDName[1543:1552],
+	_ValueIDName[1552:1561],
+	_ValueIDName[1561:1570],
+	_ValueIDName[1570:1579],
+	_ValueIDName[1579:1588],
+	_ValueIDName[1588:1597],
+	_ValueIDName[1597:1606],
+	_ValueIDName[1606:1617],
+	_ValueIDName[1617:1628],
+	_ValueIDName[1628:1639],
+	_ValueIDName[1639:1648],
+	_ValueIDName[1648:1657],
+	_ValueIDName[1657:1665],
+	_ValueIDName[1665:1678],
+	_ValueIDName[1678:1692],
+	_ValueIDName[1692:1707],
+	_ValueIDName[1707:1723],
+	_ValueIDName[1723:1736],
+	_ValueIDName[1736:1754],
+	_ValueIDName[1754:1773],
+	_ValueIDName[1773:1788],
+	_ValueIDName[1788:1806],
+	_ValueIDName[1806:1820],
+	_ValueIDName[1820:1834],
+	_ValueIDName[1834:1845],
+	_ValueIDName[1845:1860],
+	_ValueIDName[1860:1870],
+	_ValueIDName[1870:1882],
+	_ValueIDName[1882:1899],
+	_ValueIDName[1899:1909],
+	_ValueIDName[1909:1924],
 }
 
 // ValueIDString retrieves an enum value from the enum constants string name.
@@ -353,8 +509,8 @@ func ValueIDString(s string) (ValueID, error) {
 	if val, ok := _ValueIDNameToValueMap[s]; ok {
 		return val, nil
 	}
-	s = strings.ToLower(s)
-	if val, ok := _ValueIDNameToValueMap[s]; ok {
+
+	if val, ok := _ValueIDNameToValueMap[strings.ToLower(s)]; ok {
 		return val, nil
 	}
 	return 0, fmt.Errorf("%s does not belong to ValueID values", s)
